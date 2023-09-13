@@ -1,4 +1,4 @@
-const mysql = require("mysql2");
+/*const mysql = require("mysql2");
 const configuration = require("./Configurations");
 let pool;
 function createPool() {
@@ -8,7 +8,6 @@ function createPool() {
     user: configuration.MYSQL_USER,
     password: configuration.MYSQL_PASSWORD,
     database: configuration.MYSQL_DATABASE,
-    multipleStatements: false,
     waitForConnections: true,
     connectionLimit: 30,
     queueLimit: 0,
@@ -23,4 +22,4 @@ function createPool() {
 }
 createPool();
 // Export the function as a module
-module.exports = {pool,createPool};
+module.exports = {pool,createPool};*/

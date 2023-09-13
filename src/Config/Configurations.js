@@ -7,6 +7,6 @@ configuration.MYSQL_HOST = "localhost";
 configuration.MYSQL_PORT = "3306";
 configuration.MYSQL_USER = "root";
 configuration.MYSQL_PASSWORD = "1234";
-configuration.MYSQL_DATABASE = "copiasap";
+configuration.MYSQL_DATABASE = "clinicsmile";
 
 module.exports = configuration;

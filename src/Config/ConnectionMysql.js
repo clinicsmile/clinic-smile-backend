@@ -1,4 +1,4 @@
-const { pool, createPool } = require("./PoolMysql");
+/*const { pool, createPool } = require("./PoolMysql");
 
 function GetConnection() {
   return new Promise((resolve, reject) => {
@@ -23,4 +23,4 @@ function GetConnection() {
   });
 }
 
-module.exports = { GetConnection };
+module.exports = { GetConnection };*/
