@@ -1,0 +1,25 @@
+{
+  "ENV": "production",
+  "username": "root",
+  "password": "",
+  "database": "clinicsmile",
+  "sequelizeOpts": {
+    "dialect": "mysql",
+    "port": 3306,
+    "logging": false,
+    "host": "localhost",
+    "timezone": "-05:00",
+    "pool": {
+      "max": 100,
+      "min": 0,
+      "acquire": 100000
+    }
+  },
+  "brand": {
+    "primaryColor": "#0569a0",
+    "secondaryColor": "#70aac6",
+    "logo": "https://clinic-smile.netlify.app/logo.svg"
+  },
+  "domain": "http://localhost",
+  "port": 9082
+}

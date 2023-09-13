@@ -1,40 +1,64 @@
-const configurations = require("./Config/Configurations");
-const express = require("express");
-const path = require("path");
-const bodyParser = require("body-parser");
-const compression = require("compression");
-const morgan = require("morgan");
-const CookieParser = require("cookie-parser");
-const cors = require('cors');
 
+process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
+import config from "./config/config.js";
+import express from "express";
+import bodyParser from "body-parser";
+import Models from "./models/index.js";
+import Routes from "./routes/index.js";
+import v8 from "v8";
+import helmet from "helmet";
 
-//Inicializaciones
+const clog = (st, text) => console.log(st, text);
+
+let db = new Models(express);
+let routes = new Routes(express, db);
+
 const app = express();
+let server;
 
-//Settings
-app.set("port", configurations.SERVER_PORT || 4000);
-app.set("host", configurations.SERVER_IP || "localhost");
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+const runningServer = function () {
+  clog("\x1b[36m%s\x1b[0m", `Listening in ${config.domain}:${config.port}`);
+};
 
+const runServer = () => {
+  const router = express.Router();
 
-//static files
-app.use(express.static(path.join(__dirname, "./public")));
+  clog("\x1b[37m", "Putting headers");
 
+  app.disable("x-powered-by");
+  app.use(helmet());
+  app.use(bodyParser.urlencoded({ extended: false }));
+  app.use(bodyParser.json());
+  app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header(
+      "Access-Control-Allow-Headers",
+      "Origin, X-Requested-With, Content-Type, Accept, Authorization, refacil-version"
+    );
+    next();
+  });
 
-//middlewares
-app.use(cors());
-app.use(morgan('dev'));
-app.use(compression());
-app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
-app.use(CookieParser("secreto"));
+  clog("\x1b[37m", "Creating Controllers");
 
+  // router.use("/auth", routes.Auth);
+  router.use("/clinics", routes.Clinics);
 
-//Rutas
-const routes = require("./routes/Router");
+  app.use("/api/v1", router);
 
-app.use(routes);
+  app.use((err, req, res, next) => {
+    console.error("GENERAL ERR", err);
+    res.status(500).json({ message: "Something went wrong" });
+  });
 
-module.exports=app;
+  let total = v8.getHeapStatistics().total_available_size;
+  let gb = (total / 1024 / 1024 / 1024).toFixed(2);
+  clog("\x1b[33m", `Memory Limit: ${gb} GB`);
+};
+
+let timeout = 3 * 60 * 1000;
+
+runServer();
+server = app.listen(config.port, runningServer);
+
+server.setTimeout(timeout);
+server.timeout = timeout;
