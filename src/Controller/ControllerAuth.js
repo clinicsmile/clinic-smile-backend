@@ -1,7 +1,10 @@
 const controller = {};
-//const MySqlConnection = require("../Config/ConnectionMysql");
-const MysqlQuerys = require("../Models/MysqlQuerys");
 const jwt = require("jsonwebtoken");
+const { users } = require("../Models/users");
+const { people } = require("../Models/people");
+const { genders } = require("../Models/genders");
+const { documentTypes } = require("../Models/documentTypes");
+const { bloodTypes } = require("../Models/bloodTypes");
 
 controller.Auth = async (req, res) => {
   const authheader = req.headers.authorization;
@@ -13,44 +16,94 @@ controller.Auth = async (req, res) => {
   const auth = new Buffer.from(authheader.replace("Basic ", ""), "base64")
     .toString()
     .split(":");
-
-  let Connection = await MySqlConnection.GetConnection();
-  let user = await MysqlQuerys.ValidateLogin(auth[0], auth[1], Connection);
-  Connection.release();
-
-  if (user > 0) {
-    jwt.sign({ user: user }, "secretkey", (error, token) => {
-      if (error) {
-        console.log(error);
-        res.status(500).json({ error: "Internal Server Error" });
-      } else {
-        res.status(200).json({ ok: true, token: token,username:auth[0]});
-      }
+  try {
+    let user = await users.findOne({
+      include: [{ model: people, required: true }],
+      where: {
+        username: auth[0],
+        password: auth[1],
+      },
     });
-  } else {
-    res.status(401).send({ error: "Unauthorized" });
+    console.log(user);
+    if (user != null) {
+      jwt.sign({ user: user }, "secretkey", (error, token) => {
+        if (error) {
+          console.log(error);
+          res.status(500).json({ error: "Internal Server Error" });
+        } else {
+          res.status(200).json({ ok: true, token: token, username: auth[0] });
+        }
+      });
+    } else {
+      res.status(401).send({ error: "Unauthorized" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
 controller.getUsers = async (req, res) => {
-  let Connection = await MySqlConnection.GetConnection();
-  let users = await MysqlQuerys.GetUsers(Connection);
-  res.status(200).json({ users });
-  Connection.release();
+  try {
+    people.findAll().then((value) => res.status(200).json(value));
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 };
 
 controller.VerifySession = async (req, res) => {
   let token = req.headers.authorization;
   token = token.replace("Bearer token=", "");
   console.log(token);
-    jwt.verify(token, "secretkey", (error, user) => {
-      if (error) {
-        console.log(error);
-        res.status(403).json({ ok: false, message: "403 Forbidden" });
-      } else {
-        console.log(user);
-        res.status(100).json({ ok: true, message: "Valid Token" });
-      }
+  jwt.verify(token, "secretkey", (error, user) => {
+    if (error) {
+      console.log(error);
+      res.status(403).json({ ok: false, message: "403 Forbidden" });
+    } else {
+      console.log(user);
+      res.status(100).json({ ok: true, message: "Valid Token" });
+    }
+  });
+};
+
+controller.registerNewPerson = async (req, res) => {
+  try {
+    console.log(req.body);
+    await people.create(req.body);
+    await users.create({
+      username: req.body.username,
+      password: req.body.password,
+      PersonDocument: req.body.document,
     });
+
+    res.status(204).json({ message: "Usuario Creado Correctamente" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Error Server" });
+  }
+};
+
+controller.gendersList = async (req, res) => {
+  try {
+    await genders.findAll().then((value) => res.status(200).json(value));
+  } catch (error) {
+    res.status(500).json({ error: "Internal Error Server" });
+  }
+};
+
+controller.documentTypeList = async (req, res) => {
+  try {
+    await documentTypes.findAll().then((value) => res.status(200).json(value));
+  } catch (error) {
+    res.status(500).json({ error: "Internal Error Server" });
+  }
+};
+
+controller.bloodTypeList = async (req, res) => {
+  try {
+    await bloodTypes.findAll().then((value) => res.status(200).json(value));
+  } catch (error) {
+    res.status(500).json({ error: "Internal Error Server" });
+  }
 };
 module.exports = controller;

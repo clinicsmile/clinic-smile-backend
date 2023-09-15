@@ -5,8 +5,15 @@ const middleware = require("../Middlewares/Auth");
 
 router.get("/Auth", controller.Auth);
 
-router.get("/Users",middleware.isAuthenticated,controller.getUsers);
+router.get("/Users",controller.getUsers);
 
-router.get("/Verify", controller.VerifySession);
+router.post("/", (req,res)=>console.log(req.body));
 
+router.post("/Register",controller.registerNewPerson);
+
+router.get("/gendersList",controller.gendersList);
+
+router.get("/documentTypeList",controller.documentTypeList);
+
+router.get("/bloodTypeList",controller.bloodTypeList)
 module.exports = router;

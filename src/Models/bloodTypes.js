@@ -1,7 +1,7 @@
 const { sequelize } = require("../Database/DatabaseConnection");
 const { DataTypes } = require("sequelize");
 
-const documentTypes = sequelize.define("documentTypes", {
+const bloodTypes = sequelize.define("bloodTypes", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -11,12 +11,5 @@ const documentTypes = sequelize.define("documentTypes", {
   acronym: {
     type: DataTypes.STRING,
   },
-  name: {
-    type: DataTypes.STRING,
-  },
-  description:{
-    type: DataTypes.STRING,
-  }
 });
-
-module.exports = {documentTypes}
+module.exports = { bloodTypes };
