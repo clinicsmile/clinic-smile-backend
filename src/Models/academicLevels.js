@@ -1,22 +1,19 @@
 const { sequelize } = require("../Database/DatabaseConnection");
 const { DataTypes } = require("sequelize");
 
-const doctors = sequelize.define("doctors", {
+const academicLevels = sequelize.define("academicLevels", {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
     autoIncrement: true,
   },
-  academicTitle: {
+  name: {
     type: DataTypes.STRING,
   },
-  university: {
+  description:{
     type: DataTypes.STRING,
-  },
-  profesionalCardNumber: {
-    type: DataTypes.STRING,
-  },
+  }
 });
 
-module.exports = {doctors}
+module.exports = {academicLevels}

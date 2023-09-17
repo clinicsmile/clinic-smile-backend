@@ -1,19 +1,13 @@
 const express = require("express");
 const router = express.Router();
-const controller = require('../Controller/ControllerAuth');
-const middleware = require("../Middlewares/Auth");
+const appoiments = require("./appoiments.routes");
+const users = require("./users.routes.js");
+const formData = require("./formData.routes.js");
+const auth = require("./auth.routes.js");
 
-router.get("/Auth", controller.Auth);
+router.use(appoiments);
+router.use(users);
+router.use(formData);
+router.use(auth);
 
-router.get("/Users",controller.getUsers);
-
-router.post("/", (req,res)=>console.log(req.body));
-
-router.post("/Register",controller.registerNewPerson);
-
-router.get("/gendersList",controller.gendersList);
-
-router.get("/documentTypeList",controller.documentTypeList);
-
-router.get("/bloodTypeList",controller.bloodTypeList)
 module.exports = router;

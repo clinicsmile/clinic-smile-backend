@@ -11,50 +11,29 @@ const { sessions } = require("./sessions");
 const { specialties } = require("./specialties");
 const { users } = require("./users");
 const { bloodTypes } = require("./bloodTypes");
+const { academicLevels } = require("./academicLevels");
 
-people.hasOne(users);
-users.belongsTo(people);
+const models = {};
 
-users.hasOne(sessions);
-clinics.hasOne(users);
-genders.hasOne(people);
-documentTypes.hasOne(people);
-rol.hasOne(people);
-people.hasOne(clinicalHistory);
-people.hasOne(doctors);
-doctors.hasMany(appointments);
-specialties.hasMany(doctors);
-clinicalHistory.hasMany(procedures);
-people.hasMany(appointments);
+models.appointments = appointments;
+models.clinicalHistory = clinicalHistory;
+models.clinics = clinics;
+models.doctors = doctors;
+models.documentTypes = documentTypes;
+models.genders = genders;
+models.people = people;
+models.procedures = procedures;
+models.rol = rol;
+models.sessions = sessions;
+models.specialties = specialties;
+models.users = users;
+models.bloodTypes = bloodTypes;
+models.academicLevels = academicLevels;
 
-bloodTypes.hasOne(people);
-people.belongsTo(bloodTypes);
-
-console.log("\n\n\nSe crearon las asociaciones\n\n\n");
 const DefaultRegisters = async () => {
-  //creacion de persona admin principal
-  try {
-    await people.create({
-      document: "0000",
-    });
-  } catch (error) {
-    console.log(error);
-  }
-
-  //creacion de usuario admin principal
-  try {
-    await users.create({
-      username: "admin",
-      password: "admin",
-      personDocument: "0000",
-    });
-  } catch (error) {
-    console.log(error);
-  }
-
   //Creacion de roles por defecto
   try {
-    await rol.bulkCreate([
+    await models.rol.bulkCreate([
       {
         name: "Administrador",
         description: "Usuario administrador con todos los permisos",
@@ -74,7 +53,7 @@ const DefaultRegisters = async () => {
 
   //Creacion de generos por defecto
   try {
-    await genders.bulkCreate([
+    await models.genders.bulkCreate([
       {
         acronym: "M",
         name: "MASCULINO",
@@ -88,9 +67,9 @@ const DefaultRegisters = async () => {
     console.log(error);
   }
 
-  // Creacion de especialidades por defecto
+  // Creacion de especialidades por defecto para los doctores
   try {
-    await specialties.bulkCreate([
+    await models.specialties.bulkCreate([
       {
         name: "Ortodoncia",
         description:
@@ -122,7 +101,32 @@ const DefaultRegisters = async () => {
   }
 
   try {
-    await documentTypes.bulkCreate([
+    await models.academicLevels.bulkCreate([
+      {
+        name: "Educación básica primaria",
+        description:
+          "Educación primaria y secundaria; comprende nueve (9) grados y se estructurará en torno a un currículo común (primaria cinco grados y secundaria cuatro grados)",
+      },
+      {
+        name: "Educación Secundaria",
+        description: "Dos grados y culmina con el título de bachiller",
+      },
+      {
+        name: "Pregrado, Técnico y/o Tecnólogo",
+        description: "Educación superior profesional",
+      },
+      {
+        name: "Posgrado, Especializaciones, Maestría y/o Doctorado",
+        description: "Educación superior avanzada",
+      },
+    ]);
+  } catch (error) {
+    console.log(error);
+  }
+
+  //Creacion de tipos de documento base
+  try {
+    await models.documentTypes.bulkCreate([
       {
         acronym: "CC",
         name: "Cedula de ciudadanía",
@@ -175,7 +179,7 @@ const DefaultRegisters = async () => {
 
   //Creacion de tipos de sangre por defecto
   try {
-    await bloodTypes.bulkCreate([
+    await models.bloodTypes.bulkCreate([
       {
         acronym: "A+",
       },
@@ -204,6 +208,46 @@ const DefaultRegisters = async () => {
   } catch (error) {
     console.log(error);
   }
+
+  //creacion de persona admin principal
+  try {
+    await models.people.create({
+      document: "0000",
+      name: "Administrador",
+      rolId: 1,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
+  //creacion de usuario admin principal
+  try {
+    await models.users.create({
+      username: "admin",
+      password: "admin",
+      PersonDocument: "0000",
+    });
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-module.exports = { DefaultRegisters };
+const relations = async () => {
+  models.users.belongsTo(models.people, { onDelete: "cascade", hooks: true }); // un usuario pertenece a una persona
+  models.sessions.belongsTo(models.users); //Una sesion pertenece a un usuario
+  models.users.belongsTo(models.clinics); //Un usuario pertenece a una clinica
+  models.people.belongsTo(models.genders); // Una persona pertenece a un genero M o F
+  models.people.belongsTo(models.documentTypes); // una persona pertenece a un tipo de documento
+  models.people.belongsTo(models.rol); // Un Usuario pertenece a un rol
+  models.clinicalHistory.belongsTo(models.people); // Una historia clinica pertenece a una persona
+  models.doctors.belongsTo(models.people); //Un doctor puede ser una persona
+  models.people.belongsTo(models.bloodTypes); //Una persona pertenece a un tipo de sangre
+
+  models.doctors.hasMany(models.appointments); //Un Doctor puede tener muchas citas
+  models.specialties.hasMany(models.doctors); //una especialiad puede pertenecer a muchos doctores
+  models.clinicalHistory.hasMany(models.procedures); //una historia clinica puede tener muchos procedimientos
+  models.people.hasMany(models.appointments); //una persona puede tener muchas citas
+  models.doctors.belongsTo(models.academicLevels); // un doctor pertenece a un nivel academico
+};
+
+module.exports = { models, DefaultRegisters, relations };
