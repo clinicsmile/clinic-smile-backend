@@ -39,17 +39,15 @@ controller.registerNewPerson = async (req, res) => {
   }
 };
 
-controller.UpdateProfile = (req, res) => {
+controller.UpdateProfile = async (req, res) => {
   try {
-    models.people
-      .update(req.body, {
-        where: {
-          document: req.params.document,
-        },
-      })
-      .then(() =>
-        res.status(200).json({ message: "Usario actualizado con exito!!" })
-      );
+    console.log(req.boy);
+    await models.people.update(req.body, {
+      where: {
+        document: req.params.document,
+      },
+    });
+    res.status(200).json({ message: "Usario actualizado con exito!!" })
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }

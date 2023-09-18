@@ -3,12 +3,11 @@ const { models } = require("../Models/index");
 const controller = {};
 
 controller.Auth = async (req, res) => {
-  const authheader = req.headers.authorization;
+  const authheader = req.body.authorization;
   if (!authheader) {
     res.status(400).json({ error: "Bad Request" });
     return;
   }
-
   const auth = new Buffer.from(authheader.replace("Basic ", ""), "base64")
     .toString()
     .split(":");
