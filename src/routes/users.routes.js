@@ -11,5 +11,6 @@ router.post("/register", controller.registerNewPerson);
 
 router.put("/profile/:document",controller.UpdateProfile)
 
+router.delete("/user/:document",controller.deleteUser)
 
 module.exports = router;

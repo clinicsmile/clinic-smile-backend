@@ -3,7 +3,9 @@ const controller = {};
 
 controller.getUsers = async (req, res) => {
   try {
-    models.people.findAll().then((value) => res.status(200).json(value));
+    models.people
+      .findAll()
+      .then((value) => res.status(200).json(value));
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
@@ -41,13 +43,25 @@ controller.registerNewPerson = async (req, res) => {
 
 controller.UpdateProfile = async (req, res) => {
   try {
-    console.log(req.boy);
     await models.people.update(req.body, {
       where: {
         document: req.params.document,
       },
     });
-    res.status(200).json({ message: "Usario actualizado con exito!!" })
+    res.status(200).json({ message: "Usario actualizado con exito!!" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+controller.deleteUser = async (req, res) => {
+  try {
+    await models.people.destroy({
+      where: {
+        document: req.params.document,
+      },
+    });
+    res.status(200).json({ message: "Usuario Eliminado con exito!!" });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
