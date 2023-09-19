@@ -3,9 +3,7 @@ const controller = {};
 
 controller.getUsers = async (req, res) => {
   try {
-    models.people
-      .findAll()
-      .then((value) => res.status(200).json(value));
+    models.people.findAll().then((value) => res.status(200).json(value));
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
@@ -33,6 +31,9 @@ controller.registerNewPerson = async (req, res) => {
       password: req.body.password,
       PersonDocument: req.body.document,
     });
+    if (req.body.rolId == 2) {
+      await models.people.create(req.body);
+    }
 
     res.status(200).json({ message: "Usuario Creado Correctamente" });
   } catch (error) {
@@ -48,6 +49,26 @@ controller.UpdateProfile = async (req, res) => {
         document: req.params.document,
       },
     });
+    res.status(200).json({ message: "Usario actualizado con exito!!" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+controller.updateUser = async (req, res) => {
+  try {
+    await models.people.update(req.body, {
+      where: {
+        document: req.params.document,
+      },
+    });
+    if (req.body.rolId == 2) {
+      await models.doctors.update(req.body, {
+        where: {
+          PersonDocument: req.params.document,
+        },
+      });
+    }
     res.status(200).json({ message: "Usario actualizado con exito!!" });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });

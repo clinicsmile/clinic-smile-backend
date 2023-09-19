@@ -9,8 +9,10 @@ router.get("/user/:document", controller.getUser);
 
 router.post("/register", controller.registerNewPerson);
 
-router.put("/profile/:document",controller.UpdateProfile)
+router.put("/profile/:document", controller.UpdateProfile);
 
-router.delete("/user/:document",controller.deleteUser)
+router.put("/profile/:document", controller.UpdateProfile);
+
+router.put("/user/:document", controller.updateUser);
 
 module.exports = router;
