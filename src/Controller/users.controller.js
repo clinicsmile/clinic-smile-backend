@@ -11,13 +11,22 @@ controller.getUsers = async (req, res) => {
 
 controller.getUser = async (req, res) => {
   try {
-    models.people
-      .findOne({
+    const user = await models.people.findOne({
+      where: {
+        document: req.params.document,
+      },
+    });
+    if (user.dataValues.rolId == 2) {
+      const doctor = await models.doctors.findOne({
         where: {
-          document: req.params.document,
+          PersonDocument: req.params.document,
         },
-      })
-      .then((user) => res.status(200).json(user));
+      });
+      console.log(doctor);
+      res.status(200).json({ ...user.dataValues, ...doctor.dataValues });
+    } else {
+      res.status(200).json(user);
+    }
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
@@ -32,7 +41,14 @@ controller.registerNewPerson = async (req, res) => {
       PersonDocument: req.body.document,
     });
     if (req.body.rolId == 2) {
-      await models.doctors.create(req.body);
+      await models.doctors.create({
+        academicTitle: req.body.academicTitle,
+        university: req.body.university,
+        profesionalCardNumber: req.body.profesionalCardNumber,
+        PersonDocument: req.body.document,
+        specialtyId: req.body.specialtyId,
+        academicLevelId: req.body.academicLevelId,
+      });
     }
 
     res.status(200).json({ message: "Usuario Creado Correctamente" });
