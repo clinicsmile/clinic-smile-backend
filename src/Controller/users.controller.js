@@ -34,7 +34,7 @@ controller.registerNewPerson = async (req, res) => {
       PersonDocument: req.body.document,
     });
 
-    res.status(204).json({ message: "Usuario Creado Correctamente" });
+    res.status(200).json({ message: "Usuario Creado Correctamente" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Error Server" });
