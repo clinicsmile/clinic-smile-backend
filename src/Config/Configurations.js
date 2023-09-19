@@ -1,12 +1,12 @@
 const configuration = {};
 
-configuration.SERVER_IP = "192.168.1.102";
+configuration.SERVER_IP = "192.168.1.2";
 configuration.SERVER_PORT = "5000";
 
-configuration.MYSQL_HOST = "localhost";
+configuration.MYSQL_HOST = "sql10.freesqldatabase.com";
 configuration.MYSQL_PORT = "3306";
-configuration.MYSQL_USER = "root";
-configuration.MYSQL_PASSWORD = "1234";
-configuration.MYSQL_DATABASE = "clinicsmile";
+configuration.MYSQL_USER = "sql10646495";
+configuration.MYSQL_PASSWORD = "IMDay3xVNk";
+configuration.MYSQL_DATABASE = "sql10646495";
 
 module.exports = configuration;
