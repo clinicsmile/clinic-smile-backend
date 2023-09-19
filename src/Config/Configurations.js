@@ -1,6 +1,6 @@
 const configuration = {};
 
-configuration.SERVER_IP = "192.168.1.2";
+configuration.SERVER_IP = "172.31.47.66";
 configuration.SERVER_PORT = "5000";
 
 configuration.MYSQL_HOST = "sql10.freesqldatabase.com";

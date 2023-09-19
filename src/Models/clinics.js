@@ -20,6 +20,9 @@ const clinics = sequelize.define("clinics", {
   logo: {
     type: DataTypes.STRING,
   },
+  domain: {
+    type: DataTypes.STRING,
+  },
 });
 
 module.exports = {clinics}
