@@ -32,7 +32,7 @@ controller.registerNewPerson = async (req, res) => {
       PersonDocument: req.body.document,
     });
     if (req.body.rolId == 2) {
-      await models.people.create(req.body);
+      await models.doctors.create(req.body);
     }
 
     res.status(200).json({ message: "Usuario Creado Correctamente" });
