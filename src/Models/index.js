@@ -71,14 +71,9 @@ const DefaultRegisters = async () => {
   try {
     await models.specialties.bulkCreate([
       {
-        name: "Ortodoncia",
+        name:"Odontologia General",
         description:
-          "La ortodoncia es una especialidad que se encarga de corregir la posición de los dientes y la mandíbula para lograr una mordida adecuada y una sonrisa estéticamente agradable.",
-      },
-      {
-        name: "Periodoncia",
-        description:
-          "La periodoncia se enfoca en el diagnóstico y tratamiento de las enfermedades de las encías y el tejido que rodea los dientes, incluyendo la gingivitis y la periodontitis.",
+          "La Odontología General es la especialidad de Odontología encargada de prevenir, diagnosticar y tratar aquellos problemas primarios relacionados con los dientes, las encías o la lengua."    
       },
       {
         name: "Endodoncia",
@@ -91,9 +86,29 @@ const DefaultRegisters = async () => {
           "La cirugía oral y maxilofacial se encarga de realizar procedimientos quirúrgicos en la boca, la mandíbula y la cara, como extracciones de dientes de terceros molares y cirugía reconstructiva.",
       },
       {
+        name: "Ortodoncia",
+        description:
+          "La ortodoncia es una especialidad que se encarga de corregir la posición de los dientes y la mandíbula para lograr una mordida adecuada y una sonrisa estéticamente agradable.",
+      },
+      {
         name: "Odontopediatría",
         description:
           "La odontopediatría se dedica a la atención dental de niños y adolescentes, brindando cuidados preventivos y tratamientos adaptados a las necesidades de los más jóvenes.",
+      },
+      {
+        name: "Periodoncia",
+        description:
+          "La periodoncia se enfoca en el diagnóstico y tratamiento de las enfermedades de las encías y el tejido que rodea los dientes, incluyendo la gingivitis y la periodontitis.",
+      },
+      {
+        name:"Estetica Dental",
+        description:
+          "La estética dental es una especialidad odontológica que tiene como objetivo no solo mejorar los dientes y encías."
+      },
+      {
+        name:"Rehabilitación Oral",
+        description:
+          "La Rehabilitación Oral es una especialidad de la Odontología encargada de la restauración de las piezas dentales para devolverle su función estética y armónica oral mediante Prótesis Dentales."
       },
     ]);
   } catch (error) {
@@ -253,6 +268,7 @@ const relations = async () => {
   models.clinicalHistory.belongsTo(models.people); // Una historia clinica pertenece a una persona
   models.doctors.belongsTo(models.people); //Un doctor puede ser una persona
   models.people.belongsTo(models.bloodTypes); //Una persona pertenece a un tipo de sangre
+  models.appointments.belongsTo(models.specialties); // Una cita pertenece a una especialidad
 
   models.doctors.hasMany(models.appointments); //Un Doctor puede tener muchas citas
   models.specialties.hasMany(models.doctors); //una especialiad puede pertenecer a muchos doctores

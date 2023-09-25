@@ -8,17 +8,18 @@ const appointments = sequelize.define("appointments", {
     allowNull: false,
     autoIncrement: true,
   },
+  reason:{
+    type:DataTypes.STRING,
+  },    
   date: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
   },
   time: {
     type: DataTypes.TIME,
   },
   status: {
-    type: DataTypes.BOOLEAN,
-  },
-  price: {
-    type: DataTypes.FLOAT,
-  },
+    type: DataTypes.STRING,
+    defaultValue:"En espera"
+  },  
 });
 module.exports = {appointments}
