@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { models } = require("../Models/index");
 const Middleware = {};
 
 Middleware.isAuthenticated = async (req, res, next) => {
@@ -16,6 +17,48 @@ Middleware.isAuthenticated = async (req, res, next) => {
     });
   } else {
     res.status(401).json({ ok: false, message: "401 Unauthorized" });
+  }
+};
+
+Middleware.validateSession = async (req, res, next) => {
+  const authheader = req.body.authorization;
+  if (!authheader) {
+    res.status(400).json({ error: "Bad Request" });
+    return;
+  }
+  const auth = new Buffer.from(authheader.replace("Basic ", ""), "base64")
+    .toString()
+    .split(":");
+  try {
+    let user = await models.users.findOne({
+      include: [models.people],
+      where: {
+        username: auth[0],
+        password: auth[1],
+      },
+    });
+    if (user != null) {
+      if (req.body.newSession) {
+        next();
+      } else {
+        let session = await models.sessions.findOne({
+          where: {
+            UserUsername: auth[1],
+            state: 1,
+          },
+        });
+        if (session != null) {
+          res.status(409).json({ message: "Ya tiene una session activa" });
+        } else {
+          next();
+        }
+      }
+    } else {
+      res.status(401).send({ error: "Unauthorized" });
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 

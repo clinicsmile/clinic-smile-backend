@@ -9,11 +9,11 @@ const sessions = sequelize.define("sessions", {
     autoIncrement: true,
   },
   token: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
   },
   state: {
     type: DataTypes.BOOLEAN,
   },
 });
 
-module.exports = {sessions}
+module.exports = { sessions };

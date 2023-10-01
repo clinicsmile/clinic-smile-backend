@@ -11,7 +11,7 @@ router.post("/register", controller.registerNewPerson);
 
 router.put("/profile/:document", controller.UpdateProfile);
 
-router.put("/profile/:document", controller.UpdateProfile);
+router.delete("/user/:document", controller.deleteUser);
 
 router.put("/user/:document", controller.updateUser);
 

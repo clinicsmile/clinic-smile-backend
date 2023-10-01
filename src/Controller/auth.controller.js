@@ -20,12 +20,26 @@ controller.Auth = async (req, res) => {
       },
     });
     if (user != null) {
-      jwt.sign({ user: user }, "secretkey", (error, token) => {
+      jwt.sign({ user: user }, "secretkey", async (error, token) => {
         if (error) {
           console.log(error);
           res.status(500).json({ error: "Internal Server Error" });
         } else {
           res.status(200).json({ ok: true, token: token, user });
+          await models.sessions.update(
+            { state: 0 },
+            {
+              where: {
+                userUsername: auth[0],
+                state: 1,
+              },
+            }
+          );
+          models.sessions.create({
+            token: token,
+            state: 1,
+            UserUsername: auth[0],
+          });
         }
       });
     } else {
@@ -34,6 +48,23 @@ controller.Auth = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+controller.LogOut = async (req, res) => {
+  try {
+    await models.sessions.update(
+      { state: 0 },
+      {
+        where: {
+          userUsername: req.body.username,
+          state: 1,
+        },
+      }
+    );
+    res.status(204);
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 
