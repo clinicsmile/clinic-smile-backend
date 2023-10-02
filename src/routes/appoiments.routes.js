@@ -9,6 +9,8 @@ router.post("/appoiments", controller.registerAppoiment);
 
 router.get("/appoiments", controller.getAllAppoiments);
 
+router.get("/appoimentsPending", controller.getAppoimentsPending);
+
 router.get("/appoiments/doctor/:id",controller.getAppoimentsDoctor);
 
 router.get("/appoiments/paciente/:document",controller.getAppoimentsPaciente);
