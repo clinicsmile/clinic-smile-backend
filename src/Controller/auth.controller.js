@@ -19,13 +19,28 @@ controller.Auth = async (req, res) => {
         password: auth[1],
       },
     });
+    console.log(user.dataValues);
     if (user != null) {
       jwt.sign({ user: user }, "secretkey", async (error, token) => {
         if (error) {
           console.log(error);
           res.status(500).json({ error: "Internal Server Error" });
         } else {
-          res.status(200).json({ ok: true, token: token, user });
+          if (user.dataValues.Person.dataValues.rolId == 2) {
+            const doctor = await models.doctors.findOne({
+              where: {
+                PersonDocument: user.dataValues.PersonDocument,
+              },
+            });
+            console.log(doctor);
+            res.status(200).json({
+              ok: true,
+              token: token,
+              user: { ...user.dataValues, ...doctor.dataValues },
+            });
+          } else {
+            res.status(200).json({ ok: true, token: token, user });
+          }
           await models.sessions.update(
             { state: 0 },
             {
