@@ -24,9 +24,11 @@ controller.getAppoimentsDoctor = async (req, res) => {
       where: {
         doctorId: req.params.id,
       },
+      include: [models.people, models.specialties],
     });
     res.status(200).json(Appoments);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -65,6 +67,5 @@ controller.getAllAppoiments = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
-
 
 module.exports = controller;
