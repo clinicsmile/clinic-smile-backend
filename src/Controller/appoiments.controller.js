@@ -76,7 +76,16 @@ controller.updateAppoiment = async (req, res) => {
 
 controller.getAllAppoiments = async (req, res) => {
   try {
-    const Appoments = await models.appointments.findAll();
+    const Appoments = await models.appointments.findAll({
+      include: [
+        models.people,
+        models.specialties,
+        {
+          model: models.doctors,
+          include: [models.people],
+        },
+      ],
+    });
     res.status(200).json(Appoments);
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
