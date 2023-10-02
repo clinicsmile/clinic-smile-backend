@@ -275,6 +275,7 @@ const relations = async () => {
   models.clinicalHistory.hasMany(models.procedures); //una historia clinica puede tener muchos procedimientos
   models.people.hasMany(models.appointments); //una persona puede tener muchas citas
   models.appointments.belongsTo(models.people);
+  models.appointments.belongsTo(models.doctors);
   models.doctors.belongsTo(models.academicLevels); // un doctor pertenece a un nivel academico
 };
 

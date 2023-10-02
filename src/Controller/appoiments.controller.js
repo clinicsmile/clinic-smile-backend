@@ -24,7 +24,7 @@ controller.getAppoimentsDoctor = async (req, res) => {
       where: {
         doctorId: req.params.id,
       },
-      include: [models.people, models.specialties],
+      include: [models.people, models.specialties,models.doctors],
     });
     res.status(200).json(Appoments);
   } catch (error) {
@@ -39,6 +39,7 @@ controller.getAppoimentsPaciente = async (req, res) => {
       where: {
         PersonDocument: req.params.document,
       },
+      include: [models.people, models.specialties,models.doctors],
     });
     res.status(200).json(Appoments);
   } catch (error) {
