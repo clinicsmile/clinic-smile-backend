@@ -3,7 +3,9 @@ const controller = {};
 
 controller.getDoctors = async (req, res) => {
   try {
-    models.doctors.findAll().then((value) => res.status(200).json(value));
+    models.doctors
+      .findAll({ include: [models.people] })
+      .then((value) => res.status(200).json(value));
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
@@ -11,7 +13,16 @@ controller.getDoctors = async (req, res) => {
 
 controller.registerAppoiment = async (req, res) => {
   try {
-    await models.appointments.create(req.body);
+    console.log(req.body);
+    await models.appointments.create({
+      reason: req.body.reason,
+      date: req.body.date,
+      time: req.body.time,
+      status: req.body.status,
+      specialtyId: req.body.specialtyId,
+      PersonDocument: req.body.PersonDocument,
+      doctorId: req.body?.doctorId,
+    });
     res.status(200).json({ message: "Cita creada con exito" });
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
@@ -109,7 +120,7 @@ controller.getAppoimentsPending = async (req, res) => {
 controller.cancelAppoiment = async (req, res) => {
   try {
     await models.appointments.update(
-      { status: "Cancelado" },
+      { status: "Cancelada" },
       {
         where: {
           id: req.params.id,
@@ -121,4 +132,44 @@ controller.cancelAppoiment = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+controller.createAppoimentNoAuth = async (req, res) => {
+  try {
+    await models.people.create({
+      document: req.body.document,
+      name: req.body.name,
+      lastName: req.body.lastName,
+      cellPhone: req.body.cellPhone,
+      email: req.body.email,
+      address: req.body.address,
+      birthDate: req.body.birthDate,
+      genderId: req.body.genderId,
+      documentTypeId: req.body.documentTypeId,
+      rolId: 3,
+    });
+
+    await models.appointments.create({
+      reason: req.body.reason,
+      date: req.body.date,
+      time: req.body.time,
+      status: "Pendiente",
+      specialtyId: req.body.specialtyId,
+      PersonDocument: req.body.document,
+    });
+    res.status(200).json({ message: "Cita creada con exito" });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+controller.getPatients = async (req, res) => {
+  try {
+    models.people
+      .findAll({ where: { rolId: 3 } })
+      .then((value) => res.status(200).json(value));
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = controller;
