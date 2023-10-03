@@ -1,4 +1,5 @@
 const { models } = require("../Models/index");
+const { Op } = require("sequelize");
 const controller = {};
 
 controller.getDoctors = async (req, res) => {
@@ -34,6 +35,7 @@ controller.getAppoimentsDoctor = async (req, res) => {
     const Appoments = await models.appointments.findAll({
       where: {
         doctorId: req.params.id,
+        [Op.not]: [{ status: "Cancelada" }],
       },
       include: [
         models.people,
