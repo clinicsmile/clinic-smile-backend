@@ -35,7 +35,9 @@ controller.getAppoimentsDoctor = async (req, res) => {
     const Appoments = await models.appointments.findAll({
       where: {
         doctorId: req.params.id,
-        [Op.not]: [{ status: "Cancelada" }],
+        status: {
+          [Op.ne]: "Cancelada", // Utilizamos [Op.ne] para verificar que el estado no sea "Cancelada"
+        },
       },
       include: [
         models.people,
