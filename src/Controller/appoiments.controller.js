@@ -105,4 +105,20 @@ controller.getAppoimentsPending = async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+controller.cancelAppoiment = async (req, res) => {
+  try {
+    await models.appointments.update(
+      { status: "Cancelado" },
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    );
+    res.status(200).json({ message: "Cita Cancelada Correctamente" });
+  } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
 module.exports = controller;

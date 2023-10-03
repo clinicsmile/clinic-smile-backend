@@ -17,4 +17,6 @@ router.get("/appoiments/paciente/:document",controller.getAppoimentsPaciente);
 
 router.put("/appoiment/:id",controller.updateAppoiment);
 
+router.put("/cancelAppoiment/:id",controller.cancelAppoiment);
+
 module.exports = router;
