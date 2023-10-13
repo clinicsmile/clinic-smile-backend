@@ -1,5 +1,4 @@
 const { appointments } = require("./appointments");
-const { clinicalHistory } = require("./clinicalHistory");
 const { clinics } = require("./clinics");
 const { doctors } = require("./doctors");
 const { documentTypes } = require("./documentTypes");
@@ -16,7 +15,6 @@ const { academicLevels } = require("./academicLevels");
 const models = {};
 
 models.appointments = appointments;
-models.clinicalHistory = clinicalHistory;
 models.clinics = clinics;
 models.doctors = doctors;
 models.documentTypes = documentTypes;
@@ -71,9 +69,9 @@ const DefaultRegisters = async () => {
   try {
     await models.specialties.bulkCreate([
       {
-        name:"Odontologia General",
+        name: "Odontologia General",
         description:
-          "La Odontología General es la especialidad de Odontología encargada de prevenir, diagnosticar y tratar aquellos problemas primarios relacionados con los dientes, las encías o la lengua."    
+          "La Odontología General es la especialidad de Odontología encargada de prevenir, diagnosticar y tratar aquellos problemas primarios relacionados con los dientes, las encías o la lengua.",
       },
       {
         name: "Endodoncia",
@@ -101,14 +99,14 @@ const DefaultRegisters = async () => {
           "La periodoncia se enfoca en el diagnóstico y tratamiento de las enfermedades de las encías y el tejido que rodea los dientes, incluyendo la gingivitis y la periodontitis.",
       },
       {
-        name:"Estetica Dental",
+        name: "Estetica Dental",
         description:
-          "La estética dental es una especialidad odontológica que tiene como objetivo no solo mejorar los dientes y encías."
+          "La estética dental es una especialidad odontológica que tiene como objetivo no solo mejorar los dientes y encías.",
       },
       {
-        name:"Rehabilitación Oral",
+        name: "Rehabilitación Oral",
         description:
-          "La Rehabilitación Oral es una especialidad de la Odontología encargada de la restauración de las piezas dentales para devolverle su función estética y armónica oral mediante Prótesis Dentales."
+          "La Rehabilitación Oral es una especialidad de la Odontología encargada de la restauración de las piezas dentales para devolverle su función estética y armónica oral mediante Prótesis Dentales.",
       },
     ]);
   } catch (error) {
@@ -251,7 +249,7 @@ const DefaultRegisters = async () => {
       name: "clinicSmile",
       primaryColor: "#673ab7",
       secundaryColor: "#9c27b0",
-      logo: "https://cdn-icons-png.flaticon.com/512/3895/3895205.png"
+      logo: "https://cdn-icons-png.flaticon.com/512/3895/3895205.png",
     });
   } catch (error) {
     console.log(error);
@@ -265,18 +263,18 @@ const relations = async () => {
   models.people.belongsTo(models.genders); // Una persona pertenece a un genero M o F
   models.people.belongsTo(models.documentTypes); // una persona pertenece a un tipo de documento
   models.people.belongsTo(models.rol); // Un Usuario pertenece a un rol
-  models.clinicalHistory.belongsTo(models.people); // Una historia clinica pertenece a una persona
   models.doctors.belongsTo(models.people); //Un doctor puede ser una persona
   models.people.belongsTo(models.bloodTypes); //Una persona pertenece a un tipo de sangre
   models.appointments.belongsTo(models.specialties); // Una cita pertenece a una especialidad
-
   models.doctors.hasMany(models.appointments); //Un Doctor puede tener muchas citas
   models.specialties.hasMany(models.doctors); //una especialiad puede pertenecer a muchos doctores
-  models.clinicalHistory.hasMany(models.procedures); //una historia clinica puede tener muchos procedimientos
   models.people.hasMany(models.appointments); //una persona puede tener muchas citas
   models.appointments.belongsTo(models.people);
   models.appointments.belongsTo(models.doctors);
   models.doctors.belongsTo(models.academicLevels); // un doctor pertenece a un nivel academico
+  models.appointments.belongsTo(models.procedures);
+  models.people.hasMany(models.procedures);
+  models.procedures.belongsTo(models.people);
 };
 
 module.exports = { models, DefaultRegisters, relations };

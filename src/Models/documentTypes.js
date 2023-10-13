@@ -14,9 +14,9 @@ const documentTypes = sequelize.define("documentTypes", {
   name: {
     type: DataTypes.STRING,
   },
-  description:{
+  description: {
     type: DataTypes.STRING,
-  }
+  },
 });
 
-module.exports = {documentTypes}
+module.exports = { documentTypes };

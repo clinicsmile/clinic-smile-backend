@@ -135,29 +135,32 @@ controller.cancelAppoiment = async (req, res) => {
 
 controller.createAppoimentNoAuth = async (req, res) => {
   try {
-    await models.people.create({
-      document: req.body.document,
-      name: req.body.name,
-      lastName: req.body.lastName,
-      cellPhone: req.body.cellPhone,
-      email: req.body.email,
-      address: req.body.address,
-      birthDate: req.body.birthDate,
-      genderId: req.body.genderId,
-      documentTypeId: req.body.documentTypeId,
-      rolId: 3,
-    });
-
-    await models.appointments.create({
-      reason: req.body.reason,
-      date: req.body.date,
-      time: req.body.time,
-      status: "Pendiente",
-      specialtyId: req.body.specialtyId,
-      PersonDocument: req.body.document,
-    });
+    try {
+      await models.people.create({
+        document: req.body.document,
+        name: req.body.name,
+        lastName: req.body.lastName,
+        cellPhone: req.body.cellPhone,
+        email: req.body.email,
+        address: req.body.address,
+        birthDate: req.body.birthDate,
+        genderId: req.body.genderId,
+        documentTypeId: req.body.documentTypeId,
+        rolId: 3,
+      });
+    } catch (error) {
+      await models.appointments.create({
+        reason: req.body.reason,
+        date: req.body.date,
+        time: req.body.time,
+        status: "Pendiente",
+        specialtyId: req.body.specialtyId,
+        PersonDocument: req.body.document,
+      });
+    }
     res.status(200).json({ message: "Cita creada con exito" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };

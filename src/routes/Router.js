@@ -5,12 +5,13 @@ const users = require("./users.routes.js");
 const formData = require("./formData.routes.js");
 const auth = require("./auth.routes.js");
 const clinics = require("./clinics.routes.js");
+const procedures = require("./procedures.routes");
 
 router.use(appoiments);
 router.use(users);
 router.use(formData);
 router.use(auth);
 router.use(clinics);
-
+router.use(procedures);
 
 module.exports = router;

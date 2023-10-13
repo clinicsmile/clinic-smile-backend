@@ -9,13 +9,10 @@ const procedures = sequelize.define("procedures", {
     autoIncrement: true,
   },
   detail: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
   },
   media: {
     type: DataTypes.TEXT,
-  },
-  price: {
-    type: DataTypes.FLOAT,
   },
 });
 
