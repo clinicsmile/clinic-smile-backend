@@ -6,6 +6,7 @@ controller.createProcedure = async (req, res) => {
     const { dataValues } = await models.procedures.create({
       detail: JSON.stringify(req.body.Procedimiento),
       PersonDocument: req.body.DatosCita.PersonDocument,
+      appointmentId: req.body.DatosCita.id,
     });
     await models.appointments.update(
       {
@@ -27,13 +28,24 @@ controller.createProcedure = async (req, res) => {
 
 controller.toListAllRegister = async (req, res) => {
   try {
-    const allRegister = await models.appointments.findAll({
+    const allRegister = await models.procedures.findAll({
       where: {
-        id: req.params.id,
+        PersonDocument: req.params.document,
       },
+      include: [
+        {
+          model: models.appointments,
+          include: [
+            models.specialties,
+            { model: models.doctors, include: [models.people] },
+          ],
+        },
+      ],
     });
+    console.log(allRegister);
     res.status(200).json(allRegister);
   } catch (error) {
+    console.error(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };

@@ -1,6 +1,8 @@
 const { models } = require("../Models/index");
 const { Op } = require("sequelize");
+
 const controller = {};
+
 
 controller.getDoctors = async (req, res) => {
   try {

@@ -5,21 +5,49 @@ const middleware = require("../Middlewares/Auth");
 
 router.get("/doctors", controller.getDoctors);
 
-router.get("/patients", controller.getPatients);
+router.get("/patients",  controller.getPatients);
 
-router.post("/appoiments", controller.registerAppoiment);
+router.post(
+  "/appoiments",
+  middleware.isAuthenticated,
+  controller.registerAppoiment
+);
 
-router.get("/appoiments", controller.getAllAppoiments);
+router.get(
+  "/appoiments",
+  middleware.isAuthenticated,
+  controller.getAllAppoiments
+);
 
-router.get("/appoimentsPending", controller.getAppoimentsPending);
+router.get(
+  "/appoimentsPending",
+  middleware.isAuthenticated,
+  controller.getAppoimentsPending
+);
 
-router.get("/appoiments/doctor/:id", controller.getAppoimentsDoctor);
+router.get(
+  "/appoiments/doctor/:id",
+  middleware.isAuthenticated,
+  controller.getAppoimentsDoctor
+);
 
-router.get("/appoiments/paciente/:document", controller.getAppoimentsPaciente);
+router.get(
+  "/appoiments/paciente/:document",
+  middleware.isAuthenticated,
+  controller.getAppoimentsPaciente
+);
 
-router.put("/appoiment/:id", controller.updateAppoiment);
+router.put(
+  "/appoiment/:id",
+  middleware.isAuthenticated,
+  controller.updateAppoiment
+);
 
-router.put("/cancelAppoiment/:id", controller.cancelAppoiment);
+router.put(
+  "/cancelAppoiment/:id",
+  middleware.isAuthenticated,
+  controller.cancelAppoiment
+);
 
 router.post("/appointments/create-no-auth", controller.createAppoimentNoAuth);
 

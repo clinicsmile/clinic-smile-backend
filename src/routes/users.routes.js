@@ -3,16 +3,16 @@ const router = express.Router();
 const controller = require("../Controller/users.controller");
 const middleware = require("../Middlewares/Auth");
 
-router.get("/users", controller.getUsers);
+router.get("/users", middleware.isAuthenticated, controller.getUsers);
 
-router.get("/user/:document", controller.getUser);
+router.get("/user/:document", middleware.isAuthenticated,controller.getUser);
 
-router.post("/register", controller.registerNewPerson);
+router.post("/register",middleware.isAuthenticated, controller.registerNewPerson);
 
-router.put("/profile/:document", controller.UpdateProfile);
+router.put("/profile/:document", middleware.isAuthenticated,controller.UpdateProfile);
 
-router.delete("/user/:document", controller.deleteUser);
+router.delete("/user/:document", middleware.isAuthenticated,controller.deleteUser);
 
-router.put("/user/:document", controller.updateUser);
+router.put("/user/:document",middleware.isAuthenticated, controller.updateUser);
 
 module.exports = router;

@@ -3,18 +3,24 @@ const { models } = require("../Models/index");
 const Middleware = {};
 
 Middleware.isAuthenticated = async (req, res, next) => {
-  let token = req.headers["Autorization"];
+  let token = req.headers["authorization"];
+  console.log(req.headers);
   if (token != undefined) {
     token = token.replace("token=", "");
-    jwt.verify(token, "secretkey", (error, user) => {
-      if (error) {
-        console.log(error);
-        res.status(403).json({ ok: false, message: "403 Forbidden" });
-      } else {
-        console.log(user);
-        next();
-      }
-    });
+    try {
+      await models.sessions
+        .findOne({ where: { token: token } })
+        .then((value) => {
+          console.log(value);
+          if (value.state == 1) {
+            next();
+          } else {
+            res.status(401).json({ ok: false, message: "401 Unauthorized" });
+          }
+        });
+    } catch (error) {
+      res.status(500).json({ ok: false, message: "Internal Server Error" });
+    }
   } else {
     res.status(401).json({ ok: false, message: "401 Unauthorized" });
   }
