@@ -1,6 +1,6 @@
 const configuration = {};
 
-configuration.SERVER_IP = "192.168.1.102";
+configuration.SERVER_IP = "10.253.41.162";
 configuration.SERVER_PORT = "5000";
 
 configuration.MYSQL_HOST = "localhost";

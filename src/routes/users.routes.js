@@ -7,7 +7,7 @@ router.get("/users", middleware.isAuthenticated, controller.getUsers);
 
 router.get("/user/:document", middleware.isAuthenticated,controller.getUser);
 
-router.post("/register",middleware.isAuthenticated, controller.registerNewPerson);
+router.post("/register", controller.registerNewPerson);
 
 router.put("/profile/:document", middleware.isAuthenticated,controller.UpdateProfile);
 

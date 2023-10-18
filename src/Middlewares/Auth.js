@@ -1,20 +1,19 @@
-const jwt = require("jsonwebtoken");
 const { models } = require("../Models/index");
 const Middleware = {};
 
 Middleware.isAuthenticated = async (req, res, next) => {
   let token = req.headers["authorization"];
-  console.log(req.headers);
   if (token != undefined) {
     token = token.replace("token=", "");
     try {
       await models.sessions
         .findOne({ where: { token: token } })
         .then((value) => {
-          console.log(value);
           if (value.state == 1) {
+            console.log("token valido");
             next();
           } else {
+            console.log("El token ya vencio")
             res.status(401).json({ ok: false, message: "401 Unauthorized" });
           }
         });
@@ -22,6 +21,7 @@ Middleware.isAuthenticated = async (req, res, next) => {
       res.status(500).json({ ok: false, message: "Internal Server Error" });
     }
   } else {
+    console.log("No llego el token de sesion")
     res.status(401).json({ ok: false, message: "401 Unauthorized" });
   }
 };

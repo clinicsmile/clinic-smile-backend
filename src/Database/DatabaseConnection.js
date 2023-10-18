@@ -8,7 +8,7 @@ const sequelize = new Sequelize(
   {
     host: configuration.MYSQL_HOST,
     dialect: "mysql",
-    logging: true,
+    logging: false,
   }
 );
 

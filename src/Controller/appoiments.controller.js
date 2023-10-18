@@ -3,7 +3,6 @@ const { Op } = require("sequelize");
 
 const controller = {};
 
-
 controller.getDoctors = async (req, res) => {
   try {
     models.doctors
@@ -143,8 +142,14 @@ controller.cancelAppoiment = async (req, res) => {
 };
 
 controller.createAppoimentNoAuth = async (req, res) => {
+  let person = await models.people.findOne({
+    where: {
+      document: req.body.document,
+    },
+  });
+  console.log(person);
   try {
-    try {
+    if (!person) {
       await models.people.create({
         document: req.body.document,
         name: req.body.name,
@@ -157,16 +162,15 @@ controller.createAppoimentNoAuth = async (req, res) => {
         documentTypeId: req.body.documentTypeId,
         rolId: 3,
       });
-    } catch (error) {
-      await models.appointments.create({
-        reason: req.body.reason,
-        date: req.body.date,
-        time: req.body.time,
-        status: "Pendiente",
-        specialtyId: req.body.specialtyId,
-        PersonDocument: req.body.document,
-      });
     }
+    await models.appointments.create({
+      reason: req.body.reason,
+      date: req.body.date,
+      time: req.body.time,
+      status: "Pendiente",
+      specialtyId: req.body.specialtyId,
+      PersonDocument: req.body.document,
+    });
     res.status(200).json({ message: "Cita creada con exito" });
   } catch (error) {
     console.log(error);

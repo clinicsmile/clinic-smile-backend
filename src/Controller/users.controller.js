@@ -3,7 +3,7 @@ const controller = {};
 
 controller.getUsers = async (req, res) => {
   try {
-    models.people.findAll().then((value) => res.status(200).json(value));
+    await models.people.findAll().then((value) => res.status(200).json(value));
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
