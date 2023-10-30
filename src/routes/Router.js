@@ -13,5 +13,8 @@ router.use(formData);
 router.use(auth);
 router.use(clinics);
 router.use(procedures);
+router.get("/", (req, res) =>
+  res.status(200).json({ message: "Backend Listo" })
+);
 
 module.exports = router;
