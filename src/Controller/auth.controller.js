@@ -48,15 +48,6 @@ controller.Auth = async (req, res) => {
           } else {
             res.status(200).json({ ok: true, token: token, user });
           }
-          await models.sessions.update(
-            { state: 0 },
-            {
-              where: {
-                userUsername: auth[0],
-                state: 1,
-              },
-            }
-          );
           models.sessions.create({
             token: token,
             state: 1,

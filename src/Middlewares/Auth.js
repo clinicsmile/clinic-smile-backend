@@ -13,7 +13,7 @@ Middleware.isAuthenticated = async (req, res, next) => {
             console.log("token valido");
             next();
           } else {
-            console.log("El token ya vencio")
+            console.log("El token ya vencio");
             res.status(401).json({ ok: false, message: "401 Unauthorized" });
           }
         });
@@ -21,7 +21,7 @@ Middleware.isAuthenticated = async (req, res, next) => {
       res.status(500).json({ ok: false, message: "Internal Server Error" });
     }
   } else {
-    console.log("No llego el token de sesion")
+    console.log("No llego el token de sesion");
     res.status(401).json({ ok: false, message: "401 Unauthorized" });
   }
 };
@@ -44,7 +44,16 @@ Middleware.validateSession = async (req, res, next) => {
       },
     });
     if (user != null) {
-      if (req.body.newSession) {
+      if (req.body.newSession == true) {
+        await models.sessions.update(
+          { state: 0 },
+          {
+            where: {
+              UserUsername: auth[1],
+              state: 1,
+            },
+          }
+        );
         next();
       } else {
         let session = await models.sessions.findOne({
