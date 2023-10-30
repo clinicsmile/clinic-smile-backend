@@ -18,9 +18,7 @@ app.set("host", configurations.SERVER_IP || "localhost");
 app.use(morgan("combined"));
 app.use(compression());
 app.use(express.json());
-app.use(
-  cors({ origin: ["https://daniel--heartfelt-begonia-f46381.netlify.app/"] })
-);
+app.use(cors());
 app.use(CookieParser("secreto"));
 
 //Rutas
