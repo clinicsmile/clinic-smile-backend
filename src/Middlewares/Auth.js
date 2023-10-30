@@ -45,6 +45,7 @@ Middleware.validateSession = async (req, res, next) => {
     });
     if (user != null) {
       if (req.body.newSession == true) {
+        
         await models.sessions.update(
           { state: 0 },
           {
