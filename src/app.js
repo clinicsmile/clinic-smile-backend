@@ -15,10 +15,10 @@ app.set("port", configurations.SERVER_PORT || 4000);
 app.set("host", configurations.SERVER_IP || "localhost");
 
 //middlewares
-app.use(cors());
 app.use(morgan("dev"));
 app.use(compression());
 app.use(express.json());
+app.use(cors());
 app.use(CookieParser("secreto"));
 
 //Rutas
