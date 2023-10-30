@@ -1,7 +1,7 @@
 const configuration = {};
 
 configuration.SERVER_IP = process.env.SERVER_IP || "localhost";
-configuration.SERVER_PORT = process.env.SERVER_PORT || "5000";
+configuration.SERVER_PORT = process.env.PORT || "5000";
 
 configuration.MYSQL_HOST = process.env.MYSQL_HOST || "localhost";
 configuration.MYSQL_PORT = process.env.MYSQL_PORT || "3306";
