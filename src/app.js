@@ -15,7 +15,7 @@ app.set("port", configurations.SERVER_PORT || 4000);
 app.set("host", configurations.SERVER_IP || "localhost");
 
 //middlewares
-app.use(morgan("dev"));
+app.use(morgan("combined"));
 app.use(compression());
 app.use(express.json());
 app.use(
