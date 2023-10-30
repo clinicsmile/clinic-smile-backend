@@ -3,7 +3,21 @@ const controller = {};
 
 controller.getUsers = async (req, res) => {
   try {
-    await models.people.findAll().then((value) => res.status(200).json(value));
+    const data = await models.people.findAll();
+    const Users = [];
+    for (const e of data) {
+      if (e.dataValues.rolId == 2) {
+        const doctor = await models.doctors.findOne({
+          where: {
+            PersonDocument: e.dataValues.document,
+          },
+        });
+        Users.push({ ...e.dataValues, ...doctor.dataValues });
+      } else {
+        Users.push({ ...e.dataValues });
+      }
+    }
+    res.status(200).json(Users);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }
@@ -22,7 +36,6 @@ controller.getUser = async (req, res) => {
           PersonDocument: req.params.document,
         },
       });
-      console.log(doctor);
       res.status(200).json({ ...user.dataValues, ...doctor.dataValues });
     } else {
       res.status(200).json(user);
@@ -59,6 +72,7 @@ controller.registerNewPerson = async (req, res) => {
 };
 
 controller.UpdateProfile = async (req, res) => {
+  console.log(req.body);
   try {
     await models.people.update(req.body, {
       where: {
@@ -78,6 +92,7 @@ controller.updateUser = async (req, res) => {
         document: req.params.document,
       },
     });
+    console.log(req.body);
     if (req.body.rolId == 2) {
       await models.doctors.update(req.body, {
         where: {

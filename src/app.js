@@ -29,7 +29,7 @@ app.use(Router);
 //Sequilize config
 relations();
 sequelize.sync({ force: false }).then(async () => {
-  //await DefaultRegisters();//
+  //await DefaultRegisters();
 });
 
 module.exports = app;

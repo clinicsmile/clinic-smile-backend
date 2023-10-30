@@ -162,6 +162,15 @@ controller.createAppoimentNoAuth = async (req, res) => {
         documentTypeId: req.body.documentTypeId,
         rolId: 3,
       });
+
+      await models.users.create({
+        username: req.body.document,
+        password: req.body.document.substring(
+          req.body.document.length - 4,
+          req.body.document.length
+        ),
+        PersonDocument: req.body.document,
+      });
     }
     await models.appointments.create({
       reason: req.body.reason,
@@ -171,7 +180,9 @@ controller.createAppoimentNoAuth = async (req, res) => {
       specialtyId: req.body.specialtyId,
       PersonDocument: req.body.document,
     });
-    res.status(200).json({ message: "Cita creada con exito" });
+    res.status(200).json({
+      message: "Cita creada con exito",
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal Server Error" });

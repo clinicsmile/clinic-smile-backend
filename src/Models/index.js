@@ -112,7 +112,7 @@ const DefaultRegisters = async () => {
   } catch (error) {
     console.log(error);
   }
-
+  //Niveles academicos
   try {
     await models.academicLevels.bulkCreate([
       {
@@ -272,10 +272,8 @@ const relations = async () => {
   models.appointments.belongsTo(models.people);
   models.appointments.belongsTo(models.doctors);
   models.doctors.belongsTo(models.academicLevels); // un doctor pertenece a un nivel academico
-
   models.appointments.belongsTo(models.procedures);
   models.procedures.belongsTo(models.appointments);
-
   models.people.hasMany(models.procedures);
   models.procedures.belongsTo(models.people);
 };
