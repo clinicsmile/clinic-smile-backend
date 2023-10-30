@@ -18,7 +18,7 @@ app.set("host", configurations.SERVER_IP || "localhost");
 app.use(morgan("dev"));
 app.use(compression());
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: ["*"] }));
 app.use(CookieParser("secreto"));
 
 //Rutas
