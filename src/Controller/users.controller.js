@@ -119,6 +119,7 @@ controller.deleteUser = async (req, res) => {
     console.log(response);
     res.status(200).json({ message: "Usuario Inactivado con exito!!" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
