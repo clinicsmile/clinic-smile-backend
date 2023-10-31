@@ -108,8 +108,8 @@ controller.updateUser = async (req, res) => {
 
 controller.deleteUser = async (req, res) => {
   try {
-    const response = await models.people.update(
-      { state: 0 },
+    const response = await models.users.update(
+      { state: false },
       {
         where: {
           document: req.params.document,
