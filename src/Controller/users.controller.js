@@ -108,12 +108,15 @@ controller.updateUser = async (req, res) => {
 
 controller.deleteUser = async (req, res) => {
   try {
-    await models.people.destroy({
-      where: {
-        document: req.params.document,
-      },
-    });
-    res.status(200).json({ message: "Usuario Eliminado con exito!!" });
+    await models.people.update(
+      { state: false },
+      {
+        where: {
+          document: req.params.document,
+        },
+      }
+    );
+    res.status(200).json({ message: "Usuario Inactivado con exito!!" });
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
   }

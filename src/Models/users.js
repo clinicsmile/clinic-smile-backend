@@ -10,6 +10,10 @@ const users = sequelize.define("Users", {
   password: {
     type: DataTypes.STRING,
   },
+  state: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: true,
+  },
 });
 
 module.exports = { users };
