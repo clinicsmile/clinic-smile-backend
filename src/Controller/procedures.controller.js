@@ -2,6 +2,7 @@ const { models } = require("../Models/index");
 const controller = {};
 
 controller.createProcedure = async (req, res) => {
+  console.log(req.body);
   try {
     const { dataValues } = await models.procedures.create({
       detail: JSON.stringify(req.body.Procedimiento),
