@@ -21,7 +21,6 @@ app.use(compression());
 app.use(express.json({limit:"10MB"}));
 app.use(cors());
 app.use(CookieParser("secreto"));
-app.use(multer());
 
 //Rutas
 const Router = require("./routes/Router");
