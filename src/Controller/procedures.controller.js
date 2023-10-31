@@ -76,7 +76,7 @@ controller.inactivateProcedure = async (req, res) => {
 };
 
 controller.uploadImage = async (req, res) => {
-  console.log(req.body);
+  console.log(req);
   try {
     const response = await models.procedures.update(req.body, {
       where: { id: req.body.id },
