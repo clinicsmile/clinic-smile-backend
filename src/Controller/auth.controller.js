@@ -23,6 +23,7 @@ controller.Auth = async (req, res) => {
       where: {
         username: auth[0],
         password: auth[1],
+        state: true,
       },
     });
     console.log(Object.keys(user.dataValues));
