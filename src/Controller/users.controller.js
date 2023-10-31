@@ -112,7 +112,7 @@ controller.deleteUser = async (req, res) => {
       { state: false },
       {
         where: {
-          document: req.params.document,
+          PersonDocument: req.params.document,
         },
       }
     );
