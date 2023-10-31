@@ -15,4 +15,6 @@ router.get(
   middleware.isAuthenticated,
   controller.toListAllRegister
 );
+
+router.post("/uploadImage",controller.uploadImage)
 module.exports = router;

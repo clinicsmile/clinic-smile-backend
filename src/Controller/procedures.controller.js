@@ -22,12 +22,10 @@ controller.createProcedure = async (req, res) => {
       }
     );
 
-    res
-      .status(200)
-      .json({
-        message: "Procedimiento Registrado Correctamente",
-        id: dataValues.id,
-      });
+    res.status(200).json({
+      message: "Procedimiento Registrado Correctamente",
+      id: dataValues.id,
+    });
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
@@ -73,6 +71,16 @@ controller.inactivateProcedure = async (req, res) => {
       .status(200)
       .json({ message: "Se inactivo el prodecimiento correctamente" });
   } catch (error) {
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+controller.uploadImage = async (req, res) => {
+  try {
+    await models.procedures.update(req.body, { where: { id: req.body.id } });
+    res.status(200).json({ message: "Imagen guardada correctamente" });
+  } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
