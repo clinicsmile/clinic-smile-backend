@@ -76,8 +76,12 @@ controller.inactivateProcedure = async (req, res) => {
 };
 
 controller.uploadImage = async (req, res) => {
+  console.log(req.body);
   try {
-    await models.procedures.update(req.body, { where: { id: req.body.id } });
+    const response = await models.procedures.update(req.body, {
+      where: { id: req.body.id },
+    });
+    console.log(response);
     res.status(200).json({ message: "Imagen guardada correctamente" });
   } catch (error) {
     console.log(error);
