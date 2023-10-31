@@ -16,5 +16,5 @@ router.get(
   controller.toListAllRegister
 );
 
-router.post("/uploadImage",controller.uploadImage)
+router.post("/uploadImage", controller.uploadImage);
 module.exports = router;
