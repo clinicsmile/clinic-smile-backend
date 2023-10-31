@@ -6,6 +6,7 @@ const CookieParser = require("cookie-parser");
 const cors = require("cors");
 const { sequelize } = require("./Database/DatabaseConnection");
 const { DefaultRegisters, relations } = require("./Models/index");
+const multer = require('multer');
 
 //Inicializaciones
 const app = express();
@@ -17,9 +18,10 @@ app.set("host", configurations.SERVER_IP || "localhost");
 //middlewares
 app.use(morgan("combined"));
 app.use(compression());
-app.use(express.json());
+app.use(express.json({limit:"10MB"}));
 app.use(cors());
 app.use(CookieParser("secreto"));
+app.use(multer());
 
 //Rutas
 const Router = require("./routes/Router");
