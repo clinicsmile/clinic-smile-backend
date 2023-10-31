@@ -12,7 +12,7 @@ const procedures = sequelize.define("procedures", {
     type: DataTypes.TEXT,
   },
   media: {
-    type: DataTypes.TEXT,
+    type: DataTypes.TEXT("long"),
   },
 });
 
