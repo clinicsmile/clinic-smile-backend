@@ -109,13 +109,13 @@ controller.updateUser = async (req, res) => {
 controller.deleteUser = async (req, res) => {
   try {
     const response = await models.people.update(
-      { state: false },
+      { state: 0 },
       {
         where: {
           document: req.params.document,
         },
       }
-    )
+    );
     console.log(response);
     res.status(200).json({ message: "Usuario Inactivado con exito!!" });
   } catch (error) {
