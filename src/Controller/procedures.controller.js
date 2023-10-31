@@ -22,7 +22,12 @@ controller.createProcedure = async (req, res) => {
       }
     );
 
-    res.status(200).json({ message: "Procedimiento Registrado Correctamente" });
+    res
+      .status(200)
+      .json({
+        message: "Procedimiento Registrado Correctamente",
+        id: dataValues.id,
+      });
   } catch (error) {
     res.status(500).json({ message: "Internal Server Error" });
   }
