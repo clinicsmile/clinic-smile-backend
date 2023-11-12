@@ -5,8 +5,7 @@ const morgan = require("morgan");
 const CookieParser = require("cookie-parser");
 const cors = require("cors");
 const { sequelize } = require("./Database/DatabaseConnection");
-const { DefaultRegisters, relations } = require("./Models/index");
-const multer = require('multer');
+const { CreateDefaultRegisters, relations } = require("./Models/index");
 
 //Inicializaciones
 const app = express();
@@ -16,9 +15,9 @@ app.set("port", configurations.SERVER_PORT || 4000);
 app.set("host", configurations.SERVER_IP || "localhost");
 
 //middlewares
-app.use(morgan("combined"));
+app.use(morgan("dev"));
 app.use(compression());
-app.use(express.json({limit:"10MB"}));
+app.use(express.json({ limit: "10MB" }));
 app.use(cors());
 app.use(CookieParser("secreto"));
 
@@ -30,7 +29,7 @@ app.use(Router);
 //Sequilize config
 relations();
 sequelize.sync({ force: false }).then(async () => {
-  await DefaultRegisters();
+  await CreateDefaultRegisters();
 });
 
 module.exports = app;

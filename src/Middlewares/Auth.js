@@ -35,6 +35,7 @@ Middleware.validateSession = async (req, res, next) => {
   const auth = new Buffer.from(authheader.replace("Basic ", ""), "base64")
     .toString()
     .split(":");
+  console.log(auth);
   try {
     let user = await models.users.findOne({
       include: [models.people],
@@ -45,12 +46,11 @@ Middleware.validateSession = async (req, res, next) => {
     });
     if (user != null) {
       if (req.body.newSession == true) {
-        
         await models.sessions.update(
           { state: 0 },
           {
             where: {
-              UserUsername: auth[1],
+              UserUsername: auth[0],
               state: 1,
             },
           }
@@ -59,7 +59,7 @@ Middleware.validateSession = async (req, res, next) => {
       } else {
         let session = await models.sessions.findOne({
           where: {
-            UserUsername: auth[1],
+            UserUsername: auth[0],
             state: 1,
           },
         });

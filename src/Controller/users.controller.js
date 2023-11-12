@@ -1,9 +1,16 @@
+const { where } = require("sequelize");
 const { models } = require("../Models/index");
 const controller = {};
 
 controller.getUsers = async (req, res) => {
   try {
-    const data = await models.people.findAll();
+    const data = await models.people.findAll(
+      req.params.rolId == 0
+        ? {}
+        : {
+            where: { rolId: req.params.rolId },
+          }
+    );
     const Users = [];
     for (const e of data) {
       if (e.dataValues.rolId == 2) {

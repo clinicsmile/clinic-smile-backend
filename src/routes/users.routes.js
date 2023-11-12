@@ -3,7 +3,7 @@ const router = express.Router();
 const controller = require("../Controller/users.controller");
 const middleware = require("../Middlewares/Auth");
 
-router.get("/users", middleware.isAuthenticated, controller.getUsers);
+router.get("/users/:rolId", middleware.isAuthenticated, controller.getUsers);
 
 router.get("/user/:document", middleware.isAuthenticated,controller.getUser);
 

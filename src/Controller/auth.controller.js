@@ -26,8 +26,6 @@ controller.Auth = async (req, res) => {
         state: true,
       },
     });
-    console.log(Object.keys(user.dataValues));
-
     if (user != null) {
       jwt.sign({ user: secretKey }, secretKey, async (error, token) => {
         if (error) {
@@ -63,66 +61,10 @@ controller.Auth = async (req, res) => {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-
-  // const auth = new Buffer.from(authheader.replace("Basic ", ""), "base64")
-  //   .toString()
-  //   .split(":");
-  // try {
-  //   let user = await models.users.findOne({
-  //     include: [models.people],
-  //     where: {
-  //       username: auth[0],
-  //       password: auth[1],
-  //     },
-  //   });
-  //   console.log(user.dataValues);
-  //   if (user != null) {
-  //     jwt.sign({ user: user }, "secretkey", async (error, token) => {
-  //       if (error) {
-  //         console.log(error);
-  //         res.status(500).json({ error: "Internal Server Error" });
-  //       } else {
-  //         if (user.dataValues.Person.dataValues.rolId == 2) {
-  //           const doctor = await models.doctors.findOne({
-  //             where: {
-  //               PersonDocument: user.dataValues.PersonDocument,
-  //             },
-  //           });
-  //           console.log(doctor);
-  //           res.status(200).json({
-  //             ok: true,
-  //             token: token,
-  //             user: { ...user.dataValues, ...doctor.dataValues },
-  //           });
-  //         } else {
-  //           res.status(200).json({ ok: true, token: token, user });
-  //         }
-  //         await models.sessions.update(
-  //           { state: 0 },
-  //           {
-  //             where: {
-  //               userUsername: auth[0],
-  //               state: 1,
-  //             },
-  //           }
-  //         );
-  //         models.sessions.create({
-  //           token: token,
-  //           state: 1,
-  //           UserUsername: auth[0],
-  //         });
-  //       }
-  //     });
-  //   } else {
-  //     res.status(401).send({ error: "Unauthorized" });
-  //   }
-  // } catch (error) {
-  //   console.log(error);
-  //   res.status(500).json({ error: "Internal Server Error" });
-  // }
 };
 
 controller.LogOut = async (req, res) => {
+  console.log(req.body);
   try {
     await models.sessions.update(
       { state: 0 },

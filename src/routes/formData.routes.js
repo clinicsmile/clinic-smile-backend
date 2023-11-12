@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const controller = require('../Controller/formData.controller');
-const middleware = require("../Middlewares/Auth");
 
 router.get("/gendersList",controller.gendersList);
 
