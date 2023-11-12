@@ -1,4 +1,3 @@
-const { where } = require("sequelize");
 const { models } = require("../Models/index");
 const controller = {};
 
@@ -13,19 +12,31 @@ controller.getUsers = async (req, res) => {
     );
     const Users = [];
     for (const e of data) {
+      let user = await models.users.findOne({
+        where: { PersonDocument: e.dataValues.document },
+      });
+
+      user = { state: user.dataValues.state };
+
       if (e.dataValues.rolId == 2) {
         const doctor = await models.doctors.findOne({
           where: {
             PersonDocument: e.dataValues.document,
           },
         });
-        Users.push({ ...e.dataValues, ...doctor.dataValues });
+        Users.push({
+          ...e.dataValues,
+          ...doctor.dataValues,
+          ...user,
+        });
       } else {
-        Users.push({ ...e.dataValues });
+        Users.push({ ...e.dataValues, ...user });
       }
     }
+
     res.status(200).json(Users);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -79,7 +90,6 @@ controller.registerNewPerson = async (req, res) => {
 };
 
 controller.UpdateProfile = async (req, res) => {
-  console.log(req.body);
   try {
     await models.people.update(req.body, {
       where: {
@@ -99,7 +109,6 @@ controller.updateUser = async (req, res) => {
         document: req.params.document,
       },
     });
-    console.log(req.body);
     if (req.body.rolId == 2) {
       await models.doctors.update(req.body, {
         where: {
@@ -123,8 +132,20 @@ controller.deleteUser = async (req, res) => {
         },
       }
     );
-    console.log(response);
     res.status(200).json({ message: "Usuario Inactivado con exito!!" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+controller.reactivateUser = async (req, res) => {
+  try {
+    await models.users.update(
+      { state: true },
+      { where: { PersonDocument: req.params.document } }
+    );
+    res.status(200).json({ message: "Usuario Reactivado con exito!!" });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
