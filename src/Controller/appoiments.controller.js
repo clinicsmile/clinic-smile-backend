@@ -24,7 +24,7 @@ controller.registerAppoiment = async (req, res) => {
       status: req.body.status,
       specialtyId: req.body.specialtyId,
       PersonId: req.body.PersonId,
-      doctorId: req.body?.doctorId,
+      doctorDoctorId: req.body?.doctorId,
     });
     res.status(200).json({ message: "Cita creada con exito" });
   } catch (error) {
