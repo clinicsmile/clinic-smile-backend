@@ -26,7 +26,7 @@ controller.Auth = async (req, res) => {
         state: true,
       },
     });
-    console.log(user.dataValues);
+    console.log(user.dataValues.Person.id);
     if (user != null) {
       jwt.sign({ user: secretKey }, secretKey, async (error, token) => {
         if (error) {
@@ -36,7 +36,7 @@ controller.Auth = async (req, res) => {
           if (user.dataValues.Person.rolId == 2) {
             const doctor = await models.doctors.findOne({
               where: {
-                PersonId: user.dataValues.id,
+                PersonId: user.dataValues.Person.id,
               },
             });
             console.log(doctor);
