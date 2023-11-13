@@ -128,7 +128,7 @@ controller.getAppoimentsPending = async (req, res) => {
   try {
     const Appoments = await models.appointments.findAll({
       where: {
-        doctorId: null,
+        doctorDoctorId: null,
         status: {
           [Op.ne]: "Cancelada", // Utilizamos [Op.ne] para verificar que el estado no sea "Cancelada"
         },
