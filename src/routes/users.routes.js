@@ -15,6 +15,6 @@ router.delete("/user/:id", middleware.isAuthenticated,controller.deleteUser);
 
 router.put("/user/:id",middleware.isAuthenticated, controller.updateUser);
 
-router.put("/reactivateUser/:document",middleware.isAuthenticated, controller.reactivateUser);
+router.put("/reactivateUser/:id",middleware.isAuthenticated, controller.reactivateUser);
 
 module.exports = router;
