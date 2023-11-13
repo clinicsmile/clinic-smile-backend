@@ -41,7 +41,7 @@ controller.toListAllRegister = async (req, res) => {
     });
     const allRegister = await models.procedures.findAll({
       where: {
-        PersonDocument: user.dataValues.Person.id,
+        PersonId: user.dataValues.Person.id,
       },
       include: [
         {
