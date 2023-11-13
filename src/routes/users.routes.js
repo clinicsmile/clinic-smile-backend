@@ -5,7 +5,7 @@ const middleware = require("../Middlewares/Auth");
 
 router.get("/users/:rolId", middleware.isAuthenticated, controller.getUsers);
 
-router.get("/user/:document", middleware.isAuthenticated,controller.getUser);
+router.get("/user/:id", middleware.isAuthenticated,controller.getUser);
 
 router.post("/register", controller.registerNewPerson);
 
