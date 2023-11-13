@@ -1,4 +1,5 @@
 const { models } = require("../Models/index");
+const { use } = require("../app");
 const controller = {};
 
 controller.getUsers = async (req, res) => {
@@ -12,16 +13,17 @@ controller.getUsers = async (req, res) => {
     );
     const Users = [];
     for (const e of data) {
+      console.log(e);
       let user = await models.users.findOne({
-        where: { PersonDocument: e.dataValues.document },
+        where: { PersonId: e.dataValues.id },
       });
-
-      user = { state: user.dataValues.state };
+      console.log(user);
+      user = { state: user?.dataValues?.state };
 
       if (e.dataValues.rolId == 2) {
         const doctor = await models.doctors.findOne({
           where: {
-            PersonDocument: e.dataValues.document,
+            PersonId: e.dataValues.id,
           },
         });
         Users.push({
@@ -51,7 +53,7 @@ controller.getUser = async (req, res) => {
     if (user.dataValues.rolId == 2) {
       const doctor = await models.doctors.findOne({
         where: {
-          PersonDocument: req.params.document,
+          PersonId: req.params.id,
         },
       });
       res.status(200).json({ ...user.dataValues, ...doctor.dataValues });
@@ -65,18 +67,19 @@ controller.getUser = async (req, res) => {
 
 controller.registerNewPerson = async (req, res) => {
   try {
-    await models.people.create(req.body);
+    const user = await models.people.create(req.body);
+    console.log(user);
     await models.users.create({
       username: req.body.username,
       password: req.body.password,
-      PersonDocument: req.body.document,
+      PersonId: user.dataValues.id,
     });
     if (req.body.rolId == 2) {
       await models.doctors.create({
         academicTitle: req.body.academicTitle,
         university: req.body.university,
         profesionalCardNumber: req.body.profesionalCardNumber,
-        PersonDocument: req.body.document,
+        PersonId: user.dataValues.id,
         specialtyId: req.body.specialtyId,
         academicLevelId: req.body.academicLevelId,
       });
@@ -106,7 +109,7 @@ controller.updateUser = async (req, res) => {
   try {
     await models.people.update(req.body, {
       where: {
-        document: req.params.document,
+        id: req.params.id,
       },
     });
     if (req.body.rolId == 2) {
@@ -128,7 +131,7 @@ controller.deleteUser = async (req, res) => {
       { state: false },
       {
         where: {
-          PersonDocument: req.params.document,
+          id: req.params.id,
         },
       }
     );

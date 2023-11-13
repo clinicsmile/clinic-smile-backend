@@ -11,9 +11,9 @@ router.post("/register", controller.registerNewPerson);
 
 router.put("/profile/:document", middleware.isAuthenticated,controller.UpdateProfile);
 
-router.delete("/user/:document", middleware.isAuthenticated,controller.deleteUser);
+router.delete("/user/:id", middleware.isAuthenticated,controller.deleteUser);
 
-router.put("/user/:document",middleware.isAuthenticated, controller.updateUser);
+router.put("/user/:id",middleware.isAuthenticated, controller.updateUser);
 
 router.put("/reactivateUser/:document",middleware.isAuthenticated, controller.reactivateUser);
 module.exports = router;

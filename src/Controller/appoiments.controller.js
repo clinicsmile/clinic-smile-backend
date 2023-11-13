@@ -1,5 +1,5 @@
 const { models } = require("../Models/index");
-const { Op } = require("sequelize");
+const { Op, Model, where } = require("sequelize");
 
 const controller = {};
 
@@ -22,7 +22,7 @@ controller.registerAppoiment = async (req, res) => {
       time: req.body.time,
       status: req.body.status,
       specialtyId: req.body.specialtyId,
-      PersonDocument: req.body.PersonDocument,
+      PersonId: req.body.PersonId,
       doctorId: req.body?.doctorId,
     });
     res.status(200).json({ message: "Cita creada con exito" });
@@ -142,16 +142,12 @@ controller.cancelAppoiment = async (req, res) => {
 };
 
 controller.createAppoimentNoAuth = async (req, res) => {
-  let person = await models.people.findOne({
-    where: {
-      document: req.body.document,
-    },
-  });
-  console.log(person);
   try {
-    if (!person) {
-      await models.people.create({
+    const [user, created] = await models.people.findOrCreate({
+      where: {
         document: req.body.document,
+      },
+      defaults: {
         name: req.body.name,
         lastName: req.body.lastName,
         cellPhone: req.body.cellPhone,
@@ -161,24 +157,29 @@ controller.createAppoimentNoAuth = async (req, res) => {
         genderId: req.body.genderId,
         documentTypeId: req.body.documentTypeId,
         rolId: 3,
-      });
+      },
+    });
+    console.log(user, created);
 
-      await models.users.create({
+    await models.users.findOrCreate({
+      where: { PersonId: user.dataValues.id },
+      defaults: {
         username: req.body.document,
         password: req.body.document.substring(
           req.body.document.length - 4,
           req.body.document.length
         ),
-        PersonDocument: req.body.document,
-      });
-    }
+        PersonId: user.dataValues.id,
+      },
+    });
+
     await models.appointments.create({
       reason: req.body.reason,
       date: req.body.date,
       time: req.body.time,
       status: "Pendiente",
       specialtyId: req.body.specialtyId,
-      PersonDocument: req.body.document,
+      PersonId: user?.dataValues?.id,
     });
     res.status(200).json({
       message: "Cita creada con exito",

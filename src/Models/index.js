@@ -197,7 +197,7 @@ const DefaultRegisters = {
     {
       username: "admin",
       password: "admin",
-      PersonDocument: "0000",
+      PersonId: 1,
     },
   ],
   clinics: [
@@ -292,7 +292,7 @@ const CreateDefaultRegisters = async () => {
 };
 
 const relations = async () => {
-  models.users.belongsTo(models.people, { onDelete: "cascade", hooks: true }); // un usuario pertenece a una persona
+  models.users.belongsTo(models.people); // un usuario pertenece a una persona
   models.sessions.belongsTo(models.users); //Una sesion pertenece a un usuario
   models.users.belongsTo(models.clinics); //Un usuario pertenece a una clinica
   models.people.belongsTo(models.genders); // Una persona pertenece a un genero M o F

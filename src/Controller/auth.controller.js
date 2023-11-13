@@ -26,6 +26,7 @@ controller.Auth = async (req, res) => {
         state: true,
       },
     });
+    console.log(user);
     if (user != null) {
       jwt.sign({ user: secretKey }, secretKey, async (error, token) => {
         if (error) {
