@@ -34,9 +34,14 @@ controller.createProcedure = async (req, res) => {
 
 controller.toListAllRegister = async (req, res) => {
   try {
+    const user = await models.people.findOne({
+      where: {
+        document: req.params.document,
+      },
+    });
     const allRegister = await models.procedures.findAll({
       where: {
-        PersonDocument: req.params.document,
+        PersonDocument: user.dataValues.Person.id,
       },
       include: [
         {
