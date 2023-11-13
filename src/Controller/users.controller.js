@@ -97,7 +97,7 @@ controller.UpdateProfile = async (req, res) => {
   try {
     await models.people.update(req.body, {
       where: {
-        id: req.params.id,
+        document: req.params.document,
       },
     });
     res.status(200).json({ message: "Usario actualizado con exito!!" });

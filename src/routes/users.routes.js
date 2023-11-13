@@ -9,7 +9,7 @@ router.get("/user/:id", middleware.isAuthenticated,controller.getUser);
 
 router.post("/register", controller.registerNewPerson);
 
-router.put("/profile/:id", middleware.isAuthenticated,controller.UpdateProfile);
+router.put("/profile/:document", middleware.isAuthenticated,controller.UpdateProfile);
 
 router.delete("/user/:id", middleware.isAuthenticated,controller.deleteUser);
 
