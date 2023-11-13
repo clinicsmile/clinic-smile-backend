@@ -82,11 +82,17 @@ controller.getAppoimentsPaciente = async (req, res) => {
 
 controller.updateAppoiment = async (req, res) => {
   try {
-    await models.appointments.update(req.body, {
-      where: {
-        id: req.params.id,
+    await models.appointments.update(
+      {
+        doctorDoctorId: req.body.doctorId,
+        status: req.body.status,
       },
-    });
+      {
+        where: {
+          id: req.params.id,
+        },
+      }
+    );
     res.status(200).json({ message: "Cita Actualizada Correctamente" });
   } catch (error) {
     console.log(error);
