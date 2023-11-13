@@ -156,7 +156,7 @@ controller.reactivateUser = async (req, res) => {
   try {
     await models.users.update(
       { state: true },
-      { where: { PersonDocument: req.params.document } }
+      { where: { PersonId: req.params.id } }
     );
     res.status(200).json({ message: "Usuario Reactivado con exito!!" });
   } catch (error) {
