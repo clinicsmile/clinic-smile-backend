@@ -141,7 +141,7 @@ controller.deleteUser = async (req, res) => {
       { state: false },
       {
         where: {
-          id: req.params.id,
+          PersonId: req.params.id,
         },
       }
     );
