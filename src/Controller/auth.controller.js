@@ -36,7 +36,7 @@ controller.Auth = async (req, res) => {
           if (user.dataValues.Person.rolId == 2) {
             const doctor = await models.doctors.findOne({
               where: {
-                PersonDocument: user.dataValues.PersonDocument,
+                PersonId: user.dataValues.id,
               },
             });
             console.log(doctor);
