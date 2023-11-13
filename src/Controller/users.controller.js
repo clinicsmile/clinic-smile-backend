@@ -47,7 +47,7 @@ controller.getUser = async (req, res) => {
   try {
     const user = await models.people.findOne({
       where: {
-        document: req.params.document,
+        id: req.params.id,
       },
     });
     if (user.dataValues.rolId == 2) {
