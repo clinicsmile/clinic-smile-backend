@@ -85,7 +85,12 @@ controller.updateAppoiment = async (req, res) => {
     await models.appointments.update(
       {
         doctorDoctorId: req.body.doctorId,
-        status: req.body.status,
+        status: req.body?.status,
+        reason: req.body.reason,
+        date: req.body.date,
+        PersonId: req.body.PersonId,
+        specialtyId: req.body.specialtyId,
+        time: req.body.time,
       },
       {
         where: {
