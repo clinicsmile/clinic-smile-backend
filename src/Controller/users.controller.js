@@ -102,6 +102,7 @@ controller.UpdateProfile = async (req, res) => {
     });
     res.status(200).json({ message: "Usario actualizado con exito!!" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -116,12 +117,13 @@ controller.updateUser = async (req, res) => {
     if (req.body.rolId == 2) {
       await models.doctors.update(req.body, {
         where: {
-          PersonDocument: req.params.document,
+          PersonId: req.params.id,
         },
       });
     }
     res.status(200).json({ message: "Usario actualizado con exito!!" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
