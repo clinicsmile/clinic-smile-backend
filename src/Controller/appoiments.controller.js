@@ -27,6 +27,7 @@ controller.registerAppoiment = async (req, res) => {
     });
     res.status(200).json({ message: "Cita creada con exito" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
