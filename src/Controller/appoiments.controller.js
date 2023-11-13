@@ -62,7 +62,7 @@ controller.getAppoimentsPaciente = async (req, res) => {
   try {
     const Appoments = await models.appointments.findAll({
       where: {
-        PersonDocument: req.params.document,
+        PersonId: req.params.id,
       },
       include: [
         models.people,

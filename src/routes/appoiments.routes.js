@@ -32,7 +32,7 @@ router.get(
 );
 
 router.get(
-  "/appoiments/paciente/:document",
+  "/appoiments/paciente/:id",
   middleware.isAuthenticated,
   controller.getAppoimentsPaciente
 );
