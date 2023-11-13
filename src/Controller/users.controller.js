@@ -1,6 +1,4 @@
-const e = require("express");
 const { models } = require("../Models/index");
-const { use } = require("../app");
 const controller = {};
 
 controller.getUsers = async (req, res) => {

@@ -2,7 +2,7 @@ const { sequelize } = require("../Database/DatabaseConnection");
 const { DataTypes } = require("sequelize");
 
 const doctors = sequelize.define("doctors", {
-  id: {
+  doctorId: {
     type: DataTypes.INTEGER,
     primaryKey: true,
     allowNull: false,
@@ -19,4 +19,4 @@ const doctors = sequelize.define("doctors", {
   },
 });
 
-module.exports = {doctors}
+module.exports = { doctors };
