@@ -27,6 +27,7 @@ controller.createProcedure = async (req, res) => {
       id: dataValues.id,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -71,6 +72,7 @@ controller.inactivateProcedure = async (req, res) => {
       .status(200)
       .json({ message: "Se inactivo el prodecimiento correctamente" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };

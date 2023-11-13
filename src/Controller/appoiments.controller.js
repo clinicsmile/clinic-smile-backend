@@ -9,6 +9,7 @@ controller.getDoctors = async (req, res) => {
       .findAll({ include: [models.people] })
       .then((value) => res.status(200).json(value));
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -74,6 +75,7 @@ controller.getAppoimentsPaciente = async (req, res) => {
     });
     res.status(200).json(Appoments);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -87,6 +89,7 @@ controller.updateAppoiment = async (req, res) => {
     });
     res.status(200).json({ message: "Cita Actualizada Correctamente" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -105,6 +108,7 @@ controller.getAllAppoiments = async (req, res) => {
     });
     res.status(200).json(Appoments);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -122,6 +126,7 @@ controller.getAppoimentsPending = async (req, res) => {
     });
     res.status(200).json(Appoments);
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -138,6 +143,7 @@ controller.cancelAppoiment = async (req, res) => {
     );
     res.status(200).json({ message: "Cita Cancelada Correctamente" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
@@ -197,6 +203,7 @@ controller.getPatients = async (req, res) => {
       .findAll({ where: { rolId: 3 } })
       .then((value) => res.status(200).json(value));
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
