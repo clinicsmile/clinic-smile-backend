@@ -88,7 +88,14 @@ controller.registerNewPerson = async (req, res) => {
     res.status(200).json({ message: "Usuario Creado Correctamente" });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ error: "Internal Error Server" });
+    console.log(error.errors);
+    if (error.errors[0].message == "document must be unique") {
+      res
+        .status(226)
+        .json({ error: "El documento ya se encuentra registrado" });
+    } else {
+      res.status(500).json({ error: "Internal Server Error" });
+    }
   }
 };
 
