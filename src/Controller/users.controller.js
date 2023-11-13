@@ -1,3 +1,4 @@
+const e = require("express");
 const { models } = require("../Models/index");
 const { use } = require("../app");
 const controller = {};
@@ -123,8 +124,14 @@ controller.updateUser = async (req, res) => {
     }
     res.status(200).json({ message: "Usario actualizado con exito!!" });
   } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "Internal Server Error" });
+    console.log(error.errors);
+    if (error.errors[0].message == "document must be unique") {
+      res
+        .status(226)
+        .json({ error: "El documento ya se encuentra registrado" });
+    } else {
+      res.status(500).json({ error: "Internal Server Error" });
+    }
   }
 };
 
