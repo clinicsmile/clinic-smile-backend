@@ -6,7 +6,7 @@ controller.createProcedure = async (req, res) => {
   try {
     const { dataValues } = await models.procedures.create({
       detail: JSON.stringify(req.body.Procedimiento),
-      PersonDocument: req.body.DatosCita.PersonDocument,
+      PersonId: req.body.DatosCita.PersonId,
       appointmentId: req.body.DatosCita.id,
       media: req.body.media ? req.body.media : "Sin adjuntos",
     });
