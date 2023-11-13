@@ -26,11 +26,9 @@ controller.Auth = async (req, res) => {
         state: true,
       },
     });
-    console.log(user.dataValues.Person.id);
     if (user != null) {
       jwt.sign({ user: secretKey }, secretKey, async (error, token) => {
         if (error) {
-          console.log(error);
           res.status(500).json({ error: "Internal Server Error" });
         } else {
           if (user.dataValues.Person.rolId == 2) {
@@ -39,7 +37,6 @@ controller.Auth = async (req, res) => {
                 PersonId: user.dataValues.Person.id,
               },
             });
-            console.log(doctor);
             res.status(200).json({
               ok: true,
               token: token,
@@ -65,7 +62,6 @@ controller.Auth = async (req, res) => {
 };
 
 controller.LogOut = async (req, res) => {
-  console.log(req.body);
   try {
     await models.sessions.update(
       { state: 0 },
@@ -86,13 +82,11 @@ controller.LogOut = async (req, res) => {
 controller.VerifySession = async (req, res) => {
   let token = req.headers.authorization;
   token = token.replace("Bearer token=", "");
-  console.log(token);
   jwt.verify(token, "secretkey", (error, user) => {
     if (error) {
       console.log(error);
       res.status(403).json({ ok: false, message: "403 Forbidden" });
     } else {
-      console.log(user);
       res.status(100).json({ ok: true, message: "Valid Token" });
     }
   });

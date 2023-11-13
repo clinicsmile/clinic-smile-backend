@@ -12,11 +12,9 @@ controller.getUsers = async (req, res) => {
     );
     const Users = [];
     for (const e of data) {
-      console.log(e);
       let user = await models.users.findOne({
         where: { PersonId: e.dataValues.id },
       });
-      console.log(user);
       user = { state: user?.dataValues?.state };
 
       if (e.dataValues.rolId == 2) {
@@ -68,7 +66,6 @@ controller.getUser = async (req, res) => {
 controller.registerNewPerson = async (req, res) => {
   try {
     const user = await models.people.create(req.body);
-    console.log(user);
     await models.users.create({
       username: req.body.username,
       password: req.body.password,

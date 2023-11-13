@@ -16,7 +16,6 @@ controller.getDoctors = async (req, res) => {
 
 controller.registerAppoiment = async (req, res) => {
   try {
-    console.log(req.body);
     await models.appointments.create({
       reason: req.body.reason,
       date: req.body.date,
@@ -177,7 +176,6 @@ controller.createAppoimentNoAuth = async (req, res) => {
         rolId: 3,
       },
     });
-    console.log(user, created);
 
     await models.users.findOrCreate({
       where: { PersonId: user.dataValues.id },

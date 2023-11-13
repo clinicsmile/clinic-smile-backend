@@ -2,7 +2,6 @@ const { models } = require("../Models/index");
 const controller = {};
 
 controller.createProcedure = async (req, res) => {
-  console.log(req.body);
   try {
     const { dataValues } = await models.procedures.create({
       detail: JSON.stringify(req.body.Procedimiento),
@@ -39,7 +38,6 @@ controller.toListAllRegister = async (req, res) => {
         document: req.params.document,
       },
     });
-    console.log(user);
     const allRegister = await models.procedures.findAll({
       where: {
         PersonId: user.dataValues.id,
@@ -54,7 +52,6 @@ controller.toListAllRegister = async (req, res) => {
         },
       ],
     });
-    console.log(allRegister);
     res.status(200).json(allRegister);
   } catch (error) {
     console.error(error);
@@ -84,12 +81,10 @@ controller.inactivateProcedure = async (req, res) => {
 };
 
 controller.uploadImage = async (req, res) => {
-  console.log(req);
   try {
     const response = await models.procedures.update(req.body, {
       where: { id: req.body.id },
     });
-    console.log(response);
     res.status(200).json({ message: "Imagen guardada correctamente" });
   } catch (error) {
     console.log(error);
