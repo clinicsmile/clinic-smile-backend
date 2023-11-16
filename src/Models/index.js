@@ -11,6 +11,7 @@ const { specialties } = require("./specialties");
 const { users } = require("./users");
 const { bloodTypes } = require("./bloodTypes");
 const { academicLevels } = require("./academicLevels");
+const { Logs } = require("./logs");
 
 const models = {};
 
@@ -27,6 +28,7 @@ models.specialties = specialties;
 models.users = users;
 models.bloodTypes = bloodTypes;
 models.academicLevels = academicLevels;
+models.Logs = Logs;
 
 const DefaultRegisters = {
   roles: [

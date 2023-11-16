@@ -1,4 +1,5 @@
 const { models } = require("../Models/index");
+const { saveLogs } = require("./savelogs.helper");
 const controller = {};
 
 controller.getBrand = async (req, res) => {
@@ -38,6 +39,18 @@ controller.updateBrand = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+controller.updateLogo = async (req, res) => {
+  try {
+    const response = await models.clinics.update(req.body, {
+      where: { id: req.params.id },
+    });
+    res.status(200).json({ message: "Imagen guardada correctamente" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 

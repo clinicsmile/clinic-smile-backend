@@ -1,4 +1,5 @@
 const { models } = require("../Models/index");
+const { saveLogs } = require("./savelogs.helper");
 const controller = {};
 
 controller.createProcedure = async (req, res) => {

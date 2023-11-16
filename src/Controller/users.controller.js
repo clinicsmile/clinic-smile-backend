@@ -1,5 +1,6 @@
 const { models } = require("../Models/index");
 const { EmailController } = require("./controller.email");
+const { saveLogs } = require("./savelogs.helper");
 const controller = {};
 
 controller.getUsers = async (req, res) => {
@@ -104,7 +105,10 @@ controller.registerNewPerson = async (req, res) => {
     }
 
     res.status(200).json({ message: "Usuario Creado Correctamente" });
-
+    saveLogs({
+      accion: `Registro de usuario ${req.body.document}`,
+      data: req.body,
+    });
     EmailController.CorreoRegistroPersona(req.body);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });

@@ -1,6 +1,7 @@
 const { models } = require("../Models/index");
 const { Op, Model, where } = require("sequelize");
 const { EmailController } = require("./controller.email");
+const { saveLogs } = require("./savelogs.helper");
 
 const controller = {};
 
