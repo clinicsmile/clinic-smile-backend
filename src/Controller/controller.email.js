@@ -17,18 +17,6 @@ const EmailController = {};
 const resend = new Resend(configuration.RESEND_KEY);
 
 const sendMail = async (template, data) => {
-  // try {
-  //     const send = await resend.emails.send({
-  //     from: "ClinicSmile <notificaciones.ClinicSmile@resend.dev>",
-  //     to: [data.email],
-  //     subject: "Bienvenido a ClinicSmile",
-  //     html: template,
-  //     });
-  //     console.log(send);
-  // } catch (error) {
-  //     console.log(error);
-  // }
-
   const trasporter = createTransporter();
   try {
     const info = await trasporter.sendMail({
@@ -230,6 +218,7 @@ EmailController.CorreoAceptacionCita = (data) => {
 };
 
 EmailController.CorreoNuevaCita = (data) => {
+  console.log(data);
   const template = `
   <!DOCTYPE html>
   <html lang="es">

@@ -47,7 +47,7 @@ controller.registerAppoiment = async (req, res) => {
 
     if (req.body?.doctorId) {
       EmailController.CorreoNuevaCita({
-        ...appoimentWithRelations.dataValues.Person,
+        ...appoimentWithRelations.dataValues.Person.dataValues,
         ...appoimentWithRelations.dataValues.Doctor,
         ...appoiment.dataValues,
       });
