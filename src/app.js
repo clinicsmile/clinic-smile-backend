@@ -28,7 +28,7 @@ app.use(Router);
 
 //Sequilize config
 relations();
-sequelize.sync({ force: true }).then(async () => {
+sequelize.sync({ force: false }).then(async () => {
   await CreateDefaultRegisters();
 });
 
