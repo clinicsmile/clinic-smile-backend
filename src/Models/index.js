@@ -205,7 +205,7 @@ const DefaultRegisters = {
       name: "clinicSmile",
       primaryColor: "#673ab7",
       secundaryColor: "#9c27b0",
-      logo: "https://cdn-icons-png.flaticon.com/512/3895/3895205.png",
+      logo: "./logo.svg",
     },
   ],
 };
