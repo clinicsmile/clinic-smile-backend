@@ -18,7 +18,7 @@ const clinics = sequelize.define("clinics", {
     type: DataTypes.STRING,
   },
   logo: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT("long"),
   },
   domain: {
     type: DataTypes.STRING,
