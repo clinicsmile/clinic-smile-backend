@@ -6,6 +6,7 @@ const formData = require("./formData.routes.js");
 const auth = require("./auth.routes.js");
 const clinics = require("./clinics.routes.js");
 const procedures = require("./procedures.routes");
+const logs = require("./logs.routes.js");
 
 router.use(appoiments);
 router.use(users);
@@ -13,6 +14,7 @@ router.use(formData);
 router.use(auth);
 router.use(clinics);
 router.use(procedures);
+router.use(logs);
 router.get("/", (req, res) =>
   res.status(200).json({ message: "Backend Listo" })
 );

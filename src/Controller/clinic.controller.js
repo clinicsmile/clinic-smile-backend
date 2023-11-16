@@ -4,20 +4,6 @@ const controller = {};
 
 controller.getBrand = async (req, res) => {
   try {
-    // let clinic = await models.clinics.findOne({
-    //   where: {
-    //     id: req.body.location,
-    //   },
-    // });
-
-    // if (!clinic) {
-    //   clinic = {
-    //     name: "Clinic Smile",
-    //     primaryColor: "#673ab7",
-    //     secundaryColor: "#9c27b0",
-    //     logo: "https://clinic-smile.netlify.app/logo.svg",
-    //   }
-    // }
     let clinic = await models.clinics.findOne({
       where: {
         id: req.params.id,
@@ -35,6 +21,10 @@ controller.updateBrand = async (req, res) => {
     await models.clinics.update(req.body, {
       where: { id: req.params.id },
     });
+    saveLogs({
+      accion: `Actualización de marca`,
+      data: req.body,
+    });
     return res.status(200).json({ message: "Clinic updated" });
   } catch (error) {
     console.log(error);
@@ -48,6 +38,10 @@ controller.updateLogo = async (req, res) => {
       where: { id: req.params.id },
     });
     res.status(200).json({ message: "Imagen guardada correctamente" });
+    saveLogs({
+      accion: `Actualización de logo`,
+      data: req.body,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal Server Error" });

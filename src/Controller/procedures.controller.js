@@ -26,6 +26,10 @@ controller.createProcedure = async (req, res) => {
       message: "Procedimiento Registrado Correctamente",
       id: dataValues.id,
     });
+    saveLogs({
+      accion: `Registro de procedimiento`,
+      data: req.body,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal Server Error" });

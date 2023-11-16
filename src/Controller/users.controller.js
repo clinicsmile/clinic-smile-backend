@@ -106,7 +106,7 @@ controller.registerNewPerson = async (req, res) => {
 
     res.status(200).json({ message: "Usuario Creado Correctamente" });
     saveLogs({
-      accion: `Registro de usuario ${req.body.document}`,
+      accion: `Registro de usuario`,
       data: req.body,
     });
     EmailController.CorreoRegistroPersona(req.body);
@@ -123,6 +123,10 @@ controller.UpdateProfile = async (req, res) => {
       },
     });
     res.status(200).json({ message: "Usario actualizado con exito!!" });
+    saveLogs({
+      accion: `Actualizacion de perfil`,
+      data: req.body,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -144,6 +148,10 @@ controller.updateUser = async (req, res) => {
       });
     }
     res.status(200).json({ message: "Usario actualizado con exito!!" });
+    saveLogs({
+      accion: `Actualizacion de usuario`,
+      data: req.body,
+    });
   } catch (error) {
     console.log(error.errors);
     if (error.errors[0].message == "document must be unique") {
@@ -167,6 +175,10 @@ controller.deleteUser = async (req, res) => {
       }
     );
     res.status(200).json({ message: "Usuario Inactivado con exito!!" });
+    saveLogs({
+      accion: `Inactivacion de usuario`,
+      data: req.body,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
@@ -180,6 +192,10 @@ controller.reactivateUser = async (req, res) => {
       { where: { PersonId: req.params.id } }
     );
     res.status(200).json({ message: "Usuario Reactivado con exito!!" });
+    saveLogs({
+      accion: `Reactivacion de usuario`,
+      data: req.body,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal Server Error" });

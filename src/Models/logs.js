@@ -16,9 +16,9 @@ const Logs = sequelize.define("Logs", {
     allowNull: false,
   },
   detalle: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT("long"),
     allowNull: false,
   },
 });
 
-module.exports = {Logs};
+module.exports = { Logs };

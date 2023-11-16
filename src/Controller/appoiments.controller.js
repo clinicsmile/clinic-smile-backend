@@ -40,6 +40,11 @@ controller.registerAppoiment = async (req, res) => {
       ],
     });
     res.status(200).json({ message: "Cita creada con exito" });
+    saveLogs({
+      accion: `Registro de cita`,
+      data: req.body,
+    });
+
     if (req.body?.doctorId) {
       EmailController.CorreoNuevaCita({
         ...appoimentWithRelations.dataValues.Person,
@@ -124,6 +129,10 @@ controller.updateAppoiment = async (req, res) => {
       }
     );
     res.status(200).json({ message: "Cita Actualizada Correctamente" });
+    saveLogs({
+      accion: `Actualización de cita`,
+      data: req.body,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -178,6 +187,10 @@ controller.cancelAppoiment = async (req, res) => {
       }
     );
     res.status(200).json({ message: "Cita Cancelada Correctamente" });
+    saveLogs({
+      accion: `Cancelación de cita`,
+      data: req.body,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -226,6 +239,10 @@ controller.createAppoimentNoAuth = async (req, res) => {
 
     res.status(200).json({
       message: "Cita creada con exito",
+    });
+    saveLogs({
+      accion: `Registro de cita sin autenticación`,
+      data: req.body,
     });
     EmailController.CorreoAceptacionCita({ ...user.dataValues, ...req.body });
   } catch (error) {
