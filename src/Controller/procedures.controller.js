@@ -38,21 +38,31 @@ controller.toListAllRegister = async (req, res) => {
         document: req.params.document,
       },
     });
-    const allRegister = await models.procedures.findAll({
-      where: {
-        PersonId: user.dataValues.id,
-      },
-      include: [
-        {
-          model: models.appointments,
-          include: [
-            models.specialties,
-            { model: models.doctors, include: [models.people] },
-          ],
+    if (user !== null) {
+      const allRegister = await models.procedures.findAll({
+        where: {
+          PersonId: user.dataValues.id,
         },
-      ],
-    });
-    res.status(200).json(allRegister);
+        include: [
+          {
+            model: models.appointments,
+            include: [
+              models.specialties,
+              { model: models.doctors, include: [models.people] },
+            ],
+          },
+        ],
+      });
+      if (allRegister.length === 0) {
+        res
+          .status(226)
+          .json({ error: "El usuario no tiene procedimientos realizados" });
+        return;
+      }
+      res.status(200).json(allRegister);
+      return;
+    }
+    res.status(226).json({ error: "Usuario No encontrado!!" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal Server Error" });

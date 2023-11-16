@@ -1,4 +1,4 @@
-const configurations = require("./Config/Configurations");
+const {configuration} = require("./Config/Configurations");
 const express = require("express");
 const compression = require("compression");
 const morgan = require("morgan");
@@ -11,8 +11,8 @@ const { CreateDefaultRegisters, relations } = require("./Models/index");
 const app = express();
 
 //Settings
-app.set("port", configurations.SERVER_PORT || 4000);
-app.set("host", configurations.SERVER_IP || "localhost");
+app.set("port", configuration.SERVER_PORT);
+app.set("host", configuration.SERVER_IP || "localhost");
 
 //middlewares
 app.use(morgan("dev"));
@@ -28,7 +28,7 @@ app.use(Router);
 
 //Sequilize config
 relations();
-sequelize.sync({ force: false }).then(async () => {
+sequelize.sync({ force: true }).then(async () => {
   await CreateDefaultRegisters();
 });
 

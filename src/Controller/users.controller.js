@@ -1,4 +1,5 @@
 const { models } = require("../Models/index");
+const { EmailController } = require("./controller.email");
 const controller = {};
 
 controller.getUsers = async (req, res) => {
@@ -13,7 +14,7 @@ controller.getUsers = async (req, res) => {
     const Users = [];
     for (const e of data) {
       let user = await models.users.findOne({
-        where: { PersonId: e.dataValues.id },
+        where: { PersonId: e?.dataValues.id },
       });
       user = { state: user?.dataValues?.state };
 
@@ -65,12 +66,32 @@ controller.getUser = async (req, res) => {
 
 controller.registerNewPerson = async (req, res) => {
   try {
+    const existingPerson = await models.people.findOne({
+      where: { document: req.body.document },
+    });
+    const existingUser = await models.users.findOne({
+      where: { username: req.body.username },
+    });
+
+    if (existingPerson) {
+      return res
+        .status(226)
+        .json({ error: "El documento ya se encuentra registrado" });
+    }
+
+    if (existingUser) {
+      return res
+        .status(226)
+        .json({ error: "El nombre de usuario no esta disponible" });
+    }
+
     const user = await models.people.create(req.body);
     await models.users.create({
       username: req.body.username,
       password: req.body.password,
       PersonId: user.dataValues.id,
     });
+
     if (req.body.rolId == 2) {
       await models.doctors.create({
         academicTitle: req.body.academicTitle,
@@ -83,16 +104,10 @@ controller.registerNewPerson = async (req, res) => {
     }
 
     res.status(200).json({ message: "Usuario Creado Correctamente" });
+
+    EmailController.CorreoRegistroPersona(req.body);
   } catch (error) {
-    console.log(error);
-    console.log(error.errors);
-    if (error.errors[0].message == "document must be unique") {
-      res
-        .status(226)
-        .json({ error: "El documento ya se encuentra registrado" });
-    } else {
-      res.status(500).json({ error: "Internal Server Error" });
-    }
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 

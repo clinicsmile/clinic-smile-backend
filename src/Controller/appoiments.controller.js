@@ -1,5 +1,6 @@
 const { models } = require("../Models/index");
 const { Op, Model, where } = require("sequelize");
+const { EmailController } = require("./controller.email");
 
 const controller = {};
 
@@ -16,16 +17,40 @@ controller.getDoctors = async (req, res) => {
 
 controller.registerAppoiment = async (req, res) => {
   try {
-    await models.appointments.create({
+    const appoimentData = {
       reason: req.body.reason,
       date: req.body.date,
       time: req.body.time,
       status: req.body.status,
       specialtyId: req.body.specialtyId,
       PersonId: req.body.PersonId,
-      doctorDoctorId: req.body?.doctorId,
+    };
+
+    if (req.body?.doctorId) {
+      appoimentData.doctorDoctorId = req.body.doctorId;
+    }
+
+    const appoiment = await models.appointments.create(appoimentData);
+    const appoimentWithRelations = await models.appointments.findOne({
+      where: { id: appoiment.id },
+      include: [
+        models.people,
+        { model: models.doctors, include: [models.people] },
+      ],
     });
     res.status(200).json({ message: "Cita creada con exito" });
+    if (req.body?.doctorId) {
+      EmailController.CorreoNuevaCita({
+        ...appoimentWithRelations.dataValues.Person,
+        ...appoimentWithRelations.dataValues.Doctor,
+        ...appoiment.dataValues,
+      });
+    } else {
+      EmailController.CorreoAceptacionCita({
+        ...appoimentWithRelations.dataValues.Person.dataValues,
+        ...appoiment.dataValues,
+      });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -197,9 +222,11 @@ controller.createAppoimentNoAuth = async (req, res) => {
       specialtyId: req.body.specialtyId,
       PersonId: user?.dataValues?.id,
     });
+
     res.status(200).json({
       message: "Cita creada con exito",
     });
+    EmailController.CorreoAceptacionCita({ ...user.dataValues, ...req.body });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal Server Error" });

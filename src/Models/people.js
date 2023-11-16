@@ -35,7 +35,7 @@ const people = sequelize.define("People", {
     allowNull: true,
   },
   birthDate: {
-    type: DataTypes.DATEONLY,
+    type: DataTypes.STRING,
     allowNull: true,
   },
   allergies: {

@@ -8,5 +8,7 @@ configuration.MYSQL_PORT = process.env.MYSQL_PORT || "3306";
 configuration.MYSQL_USER = process.env.MYSQL_USER || "root";
 configuration.MYSQL_PASSWORD = process.env.MYSQL_PASSWORD || "1234";
 configuration.MYSQL_DATABASE = process.env.MYSQL_DATABASE || "clinicsmile";
+configuration.RESEND_KEY = process.env.RESEND_KEY || "re_ZuRMrBMK_CjvdrmaAfptGyxQsAStyDvYa";
+configuration.SENDGRID_KEY = process.env.RESEND_KEY || "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";
 
-module.exports = configuration;
+module.exports = {configuration};
