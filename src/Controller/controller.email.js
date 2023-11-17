@@ -18,13 +18,15 @@ const resend = new Resend(configuration.RESEND_KEY);
 
 const sendMail = async (template, data) => {
   console.log(Object.keys(data));
-  const trasporter = createTransporter();
-  const info = await trasporter.sendMail({
-    from: "ClinicSmile <daniel.otalora@utp.edu.co>",
-    to: [data.email],
-    subject: "Bienvenido a ClinicSmile",
-    html: template,
-  });
+  if (configuration.SENDGRID_KEY.length > 0) {
+    const trasporter = createTransporter();
+    const info = await trasporter.sendMail({
+      from: "ClinicSmile <daniel.otalora@utp.edu.co>",
+      to: [data.email],
+      subject: "Bienvenido a ClinicSmile",
+      html: template,
+    });
+  }
 
   console.log(info);
 };
