@@ -188,7 +188,7 @@ EmailController.CorreoAceptacionCita = (data) => {
   
           <h2>Confirmación de Cita en ClinicSmile</h2>
   
-          <p>Estimado/a ${data.name},</p>
+          <p>Estimado/a ${data.Person.name},</p>
   
           <p>Hemos recibido tu solicitud de cita en ClinicSmile. Agradecemos tu interés en nuestros servicios y estamos trabajando diligentemente para asignarte un dentista que se ajuste a tus necesidades.</p>
   
@@ -212,7 +212,7 @@ EmailController.CorreoAceptacionCita = (data) => {
   </body> 
   </html>
       `;
-  return sendMail(template, data);
+  return sendMail(template, data.Person);
 };
 
 EmailController.CorreoNuevaCita = (data) => {
