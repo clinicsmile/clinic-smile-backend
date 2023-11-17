@@ -207,7 +207,7 @@ const DefaultRegisters = {
       name: "clinicSmile",
       primaryColor: "#673ab7",
       secundaryColor: "#9c27b0",
-      logo: "./logo.svg",
+      logo: "https://clinicsmile.netlify.app/logo.svg",
     },
   ],
 };
