@@ -1,16 +1,12 @@
 const { models } = require("../Models/index.js");
 const controller = {};
 const saveLogs = async ({ accion, data }) => {
-  try {
     console.log(data);
     models.Logs.create({
       accion: accion,
       usuario: data.userChange || "No hay usuario",
       detalle: JSON.stringify(data),
     });
-  } catch (error) {
-    console.log(error);
-  }
 };
 
 controller.getLogs = async (req, res) => {

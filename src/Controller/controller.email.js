@@ -18,16 +18,14 @@ const resend = new Resend(configuration.RESEND_KEY);
 
 const sendMail = async (template, data) => {
   const trasporter = createTransporter();
-  try {
-    const info = await trasporter.sendMail({
-      from: "ClinicSmile <daniel.otalora@utp.edu.co>",
-      to: [data.email],
-      subject: "Bienvenido a ClinicSmile",
-      html: template,
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  const info = await trasporter.sendMail({
+    from: "ClinicSmile <daniel.otalora@utp.edu.co>",
+    to: [data.email],
+    subject: "Bienvenido a ClinicSmile",
+    html: template,
+  });
+
+  console.log(info);
 };
 
 EmailController.CorreoRegistroPersona = (data) => {
