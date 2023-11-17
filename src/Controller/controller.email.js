@@ -1,5 +1,4 @@
 const { configuration } = require("../Config/Configurations");
-const { Resend } = require("resend");
 
 const nodemailerSendgrid = require("nodemailer-sendgrid");
 const nodemailer = require("nodemailer");
@@ -13,8 +12,6 @@ const createTransporter = () => {
 };
 
 const EmailController = {};
-
-const resend = new Resend(configuration.RESEND_KEY);
 
 const sendMail = async (template, data) => {
   console.log(Object.keys(data));
