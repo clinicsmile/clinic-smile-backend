@@ -34,10 +34,7 @@ controller.registerAppoiment = async (req, res) => {
     const appoiment = await models.appointments.create(appoimentData);
     const appoimentWithRelations = await models.appointments.findOne({
       where: { id: appoiment.id },
-      include: [
-        models.people,
-        { model: models.doctors, include: [models.people] },
-      ],
+      include: [models.people],
     });
     res.status(200).json({ message: "Cita creada con exito" });
     saveLogs({
@@ -45,21 +42,35 @@ controller.registerAppoiment = async (req, res) => {
       data: req.body,
     });
 
-    if (req.body?.doctorId) {
+    if (req.body.doctorId) {
+      const doctor = await models.doctors.findOne({
+        where: { doctorId: req.body.doctorId },
+        include: [models.people],
+      });
+      console.log(
+        Object.keys(appoimentWithRelations.dataValues.Person.dataValues)
+      );
+
+      console.log(doctor.dataValues);
+
       EmailController.CorreoNuevaCita({
-        ...appoimentWithRelations.dataValues.Person.dataValues,
-        ...appoimentWithRelations.dataValues.Doctor,
+        ...appoimentWithRelations.dataValues.Person,
+        ...doctor.dataValues,
         ...appoiment.dataValues,
       });
     } else {
+      console.log({
+        ...appoimentWithRelations.dataValues.Person,
+        ...appoiment.dataValues,
+      });
       EmailController.CorreoAceptacionCita({
-        ...appoimentWithRelations.dataValues.Person.dataValues,
+        ...appoimentWithRelations.dataValues.Person,
         ...appoiment.dataValues,
       });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Internal Server Error" });
+    //res.status(500).json({ message: "Internal Server Error" });
   }
 };
 

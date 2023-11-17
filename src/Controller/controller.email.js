@@ -17,6 +17,7 @@ const EmailController = {};
 const resend = new Resend(configuration.RESEND_KEY);
 
 const sendMail = async (template, data) => {
+  console.log(Object.keys(data));
   const trasporter = createTransporter();
   const info = await trasporter.sendMail({
     from: "ClinicSmile <daniel.otalora@utp.edu.co>",
@@ -216,7 +217,6 @@ EmailController.CorreoAceptacionCita = (data) => {
 };
 
 EmailController.CorreoNuevaCita = (data) => {
-  console.log(data);
   const template = `
   <!DOCTYPE html>
   <html lang="es">
