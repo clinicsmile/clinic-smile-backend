@@ -23,9 +23,8 @@ const sendMail = async (template, data) => {
       subject: "Bienvenido a ClinicSmile",
       html: template,
     });
+    console.log(info);
   }
-
-  console.log(info);
 };
 
 EmailController.CorreoRegistroPersona = (data) => {

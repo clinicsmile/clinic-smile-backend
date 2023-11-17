@@ -64,7 +64,7 @@ controller.registerAppoiment = async (req, res) => {
         ...appoiment.dataValues,
       });
       EmailController.CorreoAceptacionCita({
-        ...appoimentWithRelations.dataValues.Person,
+        ...appoimentWithRelations.dataValues,
         ...appoiment.dataValues,
       });
     }
