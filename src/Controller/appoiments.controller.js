@@ -255,7 +255,7 @@ controller.createAppoimentNoAuth = async (req, res) => {
       accion: `Registro de cita sin autenticación`,
       data: req.body,
     });
-    EmailController.CorreoAceptacionCita({ ...user.dataValues, ...req.body });
+    //EmailController.CorreoAceptacionCita({ ...req.body, ...req.body });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Internal Server Error" });
